@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/E:/check/Swingb/QL_Thu_Vien/src/View/admin/formVe.java</file>
             <file>file:/E:/check/Swingb/QL_Thu_Vien/src/View/admin/formTroChoi.java</file>
             <file>file:/E:/check/Swingb/QL_Thu_Vien/src/View/staffView.java</file>
@@ -12,6 +13,10 @@
             <file>file:/E:/check/Swingb/QL_Thu_Vien/src/View/login.java</file>
             <file>file:/E:/check/Swingb/QL_Thu_Vien/src/View/admin/formNhanVien.java</file>
             <file>file:/E:/check/Swingb/QL_Thu_Vien/src/View/QL_KhuVuiChoi.java</file>
+=======
+            <file>file:/C:/Users/Admin/Documents/NetBeansProjects/Ql_Khu_Vui_Choi/src/Controler/SocketHandle.java</file>
+            <file>file:/C:/Users/Admin/Documents/NetBeansProjects/Ql_Khu_Vui_Choi/src/View/login.java</file>
+>>>>>>> ded792e618c3ce6ce8a12410f25d9cb91bf453d0
         </group>
     </open-files>
 </project-private>
