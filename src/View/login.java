@@ -4,6 +4,7 @@
  */
 package View;
 
+import image.Menu;
 import java.awt.Color;
 
 /**
