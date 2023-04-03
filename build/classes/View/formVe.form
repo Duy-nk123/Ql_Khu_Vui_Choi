@@ -133,7 +133,7 @@
                       </Group>
                       <EmptySpace pref="157" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jButton6" alignment="0" min="-2" pref="193" max="-2" attributes="0"/>
+                          <Component id="Back" alignment="0" min="-2" pref="193" max="-2" attributes="0"/>
                           <Component id="jButton4" alignment="0" min="-2" pref="196" max="-2" attributes="0"/>
                           <Component id="jButton5" alignment="0" min="-2" pref="193" max="-2" attributes="0"/>
                           <Component id="jButton7" min="-2" pref="193" max="-2" attributes="0"/>
@@ -171,7 +171,7 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jButton5" min="-2" pref="43" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jButton6" min="-2" pref="43" max="-2" attributes="0"/>
+                              <Component id="Back" min="-2" pref="43" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="122" max="32767" attributes="0"/>
@@ -190,10 +190,13 @@
                 <Property name="text" type="java.lang.String" value="Xu&#x1ea5;t H&#xf3;a &#x110;&#x1a1;n"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton6">
+            <Component class="javax.swing.JButton" name="Back">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Tr&#x1edf; L&#x1ea1;i"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BackActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextField1">
               <Properties>
