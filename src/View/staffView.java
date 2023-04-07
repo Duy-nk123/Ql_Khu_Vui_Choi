@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
  * @author My PC
  */
 public class staffView extends javax.swing.JFrame {
+
     DefaultTableModel ve;
 
     /**
@@ -20,21 +21,22 @@ public class staffView extends javax.swing.JFrame {
     public staffView() {
         initComponents();
     }
-    
+
     private void NhapVaoBang() {
         ve = new DefaultTableModel();
-        ve.setColumnIdentifiers(new String[]{"Loại Vé", "Số Lượng", "Ngày Tạo",  "Giá tiền"});
+        ve.setColumnIdentifiers(new String[]{"Loại Vé", "Số Lượng", "Ngày Tạo", "Giá tiền"});
         tbBanVe.setModel(ve);
     }
-    
-    private void xoaTrang(){
-       
+
+    private void xoaTrang() {
+
         cbLoaiVe.setSelectedIndex(0);
         txtSoLuong.setText(null);
         txtNgayTao.setText(null);
         txtGiamGia.setText(null);
-       
+
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -280,14 +282,14 @@ public class staffView extends javax.swing.JFrame {
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
-                .addGap(25, 50, Short.MAX_VALUE))
+                .addGap(25, 41, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
                 .addGap(15, 15, 15))
         );
 
@@ -453,7 +455,7 @@ public class staffView extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -680,7 +682,7 @@ public class staffView extends javax.swing.JFrame {
                     .addGroup(jPanel14Layout.createSequentialGroup()
                         .addGap(96, 96, 96)
                         .addComponent(jLabel22)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -723,37 +725,37 @@ public class staffView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void btnThemVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVeActionPerformed
-        String loaiVe =  (String) cbLoaiVe.getSelectedItem();
-        String soLuong =  txtSoLuong.getText();
-        String ngayTao =  txtNgayTao.getText(); 
+        String loaiVe = (String) cbLoaiVe.getSelectedItem();
+        String soLuong = txtSoLuong.getText();
+        String ngayTao = txtNgayTao.getText();
         String giamGia = txtGiamGia.getText();
-        
-        if(txtSoLuong.getText().equals("") || txtNgayTao.getText().equals("")
-          || txtGiamGia.getText().equals("")) {
+
+        if (txtSoLuong.getText().equals("") || txtNgayTao.getText().equals("")
+                || txtGiamGia.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Hãy nhập đầy đủ các dữ liệu.");
-        } else{
-        int thanhTien = 0;
-        if(loaiVe.equals("Vé Thường")){
-             thanhTien = (Integer.parseInt(soLuong) * 300)   - (Integer.parseInt(soLuong)*300 * Integer.parseInt(giamGia) /100) ;  
-        }else{
-            thanhTien = (Integer.parseInt(soLuong) * 900)   - (Integer.parseInt(soLuong)*900 * Integer.parseInt(giamGia) /100) ;
-        }
-        
-        String data[] = {loaiVe,soLuong,ngayTao,String.valueOf(thanhTien)};
-        ve = (DefaultTableModel)tbBanVe.getModel();
-        ve.addRow(data);
-        xoaTrang();
+        } else {
+            int thanhTien = 0;
+            if (loaiVe.equals("Vé Thường")) {
+                thanhTien = (Integer.parseInt(soLuong) * 300) - (Integer.parseInt(soLuong) * 300 * Integer.parseInt(giamGia) / 100);
+            } else {
+                thanhTien = (Integer.parseInt(soLuong) * 900) - (Integer.parseInt(soLuong) * 900 * Integer.parseInt(giamGia) / 100);
+            }
+
+            String data[] = {loaiVe, soLuong, ngayTao, String.valueOf(thanhTien)};
+            ve = (DefaultTableModel) tbBanVe.getModel();
+            ve.addRow(data);
+            xoaTrang();
         }
     }//GEN-LAST:event_btnThemVeActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         int remove = tbBanVe.getSelectedRow();
-        if( tbBanVe.getRowCount()==0){
+        if (tbBanVe.getRowCount() == 0) {
             JOptionPane.showMessageDialog(rootPane, " Hãy thêm thông tin vào bảng trước khi xóa!");
-        } else if(remove == -1){
+        } else if (remove == -1) {
             JOptionPane.showMessageDialog(rootPane, " Hãy chọn 1 dòng trong bảng trước khi xóa!");
-        }else{
-           ve.removeRow(remove);
+        } else {
+            ve.removeRow(remove);
         }
     }//GEN-LAST:event_jButton5ActionPerformed
 
