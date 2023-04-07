@@ -1,7 +1,6 @@
 package View;
 
 import Controler.Client;
-import image.Menu;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -246,7 +245,7 @@ public class login extends javax.swing.JFrame {
     public void loginSuccess() {
         if (Client.taikhoan.getRole() == 0) {
             this.dispose();
-            new Menu().setVisible(true);
+            new adminForm().setVisible(true);
         } else if (Client.taikhoan.getRole() == 1) {
             this.dispose();
             new staffView().setVisible(true);
