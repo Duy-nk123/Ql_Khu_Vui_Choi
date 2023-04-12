@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="30670490-94c6-4863-b078-29dc5359ca61" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/build/classes/Controler/Client.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/Controler/Client.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/Controler/SocketHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/Controler/SocketHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/Model/TaiKhoan.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/Model/TaiKhoan.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/View/adminForm$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/View/adminForm$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/View/adminForm$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/View/adminForm$10.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/View/adminForm$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/View/adminForm$11.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/View/adminForm$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/View/adminForm$12.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/View/adminForm$13.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/View/adminForm$13.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/View/adminForm$14.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/View/adminForm$14.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/View/adminForm$15.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/View/adminForm$15.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/View/adminForm$16.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/View/adminForm$16.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/View/adminForm$17.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/View/adminForm$17.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/View/adminForm$18.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/View/adminForm$18.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/View/adminForm$19.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/View/adminForm$19.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/View/adminForm$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/View/adminForm$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/View/adminForm$20.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/View/adminForm$20.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/View/adminForm$21.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/View/adminForm$21.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/View/adminForm$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/View/adminForm$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/View/adminForm$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/View/adminForm$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/View/adminForm$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/View/adminForm$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/View/adminForm$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/View/adminForm$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/View/adminForm$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/View/adminForm$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/View/adminForm$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/View/adminForm$8.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/View/adminForm$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/View/adminForm$9.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/View/adminForm.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/View/adminForm.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/View/adminForm.form" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/View/adminForm.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/View/login.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/View/login.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nbproject/private/private.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/private/private.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controler/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controler/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controler/SocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controler/SocketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Model/TaiKhoan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/TaiKhoan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/adminForm.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/adminForm.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/adminForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/adminForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/login.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/login.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2OJmalUUrWvz46HmoaT2aE4aMv9" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "E:/code_rac/Java_Swing/NEW/Ql_Khu_Vui_Choi",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="30670490-94c6-4863-b078-29dc5359ca61" name="Changes" comment="" />
+      <created>1681287124283</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1681287124283</updated>
+      <workItem from="1681287125273" duration="55000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

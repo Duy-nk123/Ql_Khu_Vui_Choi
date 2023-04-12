@@ -226,35 +226,26 @@ public class login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 
-//     if( i == 0){
-//          new Menu().setVisible(true);
-//     }
-//     else if(i == 1){
-//          new staffView().setVisible(true);
-//     }
-//     else if(i == 2){
-//          new serviceStaffView().setVisible(true);
-//     }
-//     else if(i == 3){
-//           new techniciansMenu().setVisible(true);
-//     }
     public void wrongUser() {
         JOptionPane.showMessageDialog(rootPane, "Sai tài khoản hoặc mật khẩu !");
     }
 
     public void loginSuccess() {
         if (Client.taikhoan.getRole() == 0) {
-            this.dispose();
+//            Client.closeView(Client.View.LOGIN);
+//            Client.openView(Client.View.ADMIN);
+
+             this.dispose();
             new adminForm().setVisible(true);
         } else if (Client.taikhoan.getRole() == 1) {
-            this.dispose();
-            new staffView().setVisible(true);
+            Client.closeView(Client.View.LOGIN);
+            Client.openView(Client.View.STAFF);
         } else if (Client.taikhoan.getRole() == 2) {
-            this.dispose();
-            new serviceStaffView().setVisible(true);
+            Client.closeView(Client.View.LOGIN);
+            Client.openView(Client.View.SERVICESTAFF);
         } else if (Client.taikhoan.getRole() == 3) {
-            this.dispose();
-            new techniciansMenu().setVisible(true);
+            Client.closeView(Client.View.LOGIN);
+            Client.openView(Client.View.TECHNISTANS);
         }
     }
 

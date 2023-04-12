@@ -29,7 +29,7 @@ public class SocketHandler implements Runnable {
     public void run() {
         try {
             // Gửi yêu cầu kết nối tới Server đang lắng nghe
-            socketOfClient = new Socket("localhost", 7477);
+            socketOfClient = new Socket("localhost", 7777);
             System.out.println("Kết nối thành công!");
             // Tạo luồng đầu ra tại client (Gửi dữ liệu tới server)
             os = new BufferedWriter(new OutputStreamWriter(socketOfClient.getOutputStream()));
@@ -51,11 +51,11 @@ public class SocketHandler implements Runnable {
                 if (messageSplit[0].equals("login-success")) {
                     System.out.println("Đăng nhập thành công");
                     Client.taikhoan = getUserFromString(1,messageSplit);
-                    Client.login.loginSuccess();
+                    Client.Login.loginSuccess();
                 }
                 //Thông tin tài khoản sai
                 if (messageSplit[0].equals("wrong-user")) {
-                    Client.login.wrongUser();
+                    Client.Login.wrongUser();
                 }
             }
         } catch (NumberFormatException e) {
