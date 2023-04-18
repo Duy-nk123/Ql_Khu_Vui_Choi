@@ -1,6 +1,7 @@
 package Controler;
 
 import Model.TaiKhoan;
+import Model.troChoi;
 import View.adminForm;
 import View.login;
 import View.serviceStaffView;
@@ -9,6 +10,8 @@ import View.techniciansMenu;
 import javax.swing.JFrame;
 
 public class Client {
+ 
+    
      public enum View{
        LOGIN,
        ADMIN,
@@ -25,8 +28,17 @@ public class Client {
     
     
     public static TaiKhoan taikhoan;
+    public static troChoi trochoi;
     public static SocketHandler socketHandler;
-
+    
+    
+//    public static JFrame getVisibleJFrame(){
+//        
+//        if(AdminForm!=null&&AdminForm.isVisible()){
+//            return AdminForm;
+//        }
+//        return Login;
+//    }
     public void initView() {
         Login = new login();
         Login.setVisible(true);

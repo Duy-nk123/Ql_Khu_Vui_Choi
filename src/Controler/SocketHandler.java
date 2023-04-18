@@ -11,6 +11,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import Model.TaiKhoan;
 import Controler.Client;
+import Model.troChoi;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class SocketHandler implements Runnable {
@@ -24,7 +27,20 @@ public class SocketHandler implements Runnable {
     public SocketHandler() {
         
     }
-
+    public List<troChoi> getgame(String[] message){
+        List<troChoi> game = new ArrayList<>();
+        System.out.println("chua get");
+        for(int i=1; i<message.length; i=i+4){
+            game.add(new troChoi(Integer.parseInt(message[i]), 
+                Integer.parseInt(message[i+1]), 
+                message[i+2], 
+                Integer.parseInt(message[i+3])
+            ));
+            
+            System.out.println("duy da ch0oi"+ game);
+        }
+        return game;
+    }
     @Override
     public void run() {
         try {
@@ -51,12 +67,30 @@ public class SocketHandler implements Runnable {
                 if (messageSplit[0].equals("login-success")) {
                     System.out.println("Đăng nhập thành công");
                     Client.taikhoan = getUserFromString(1,messageSplit);
+                  //   Client. = getUserFromString(1,messageSplit);
                     Client.Login.loginSuccess();
                 }
                 //Thông tin tài khoản sai
                 if (messageSplit[0].equals("wrong-user")) {
                     Client.Login.wrongUser();
                 }
+                 // get game
+                if(messageSplit[0].equals("return-get-game")){
+                    System.out.println("hhh1");
+                    if(Client.AdminForm!=null){
+                        System.out.println("hhh1");
+                        Client.AdminForm.setDataToTableTroChoi(getgame(messageSplit));
+                        System.out.println("hhh");
+                    }
+                }
+               
+                // get game
+                
+//                if(messageSplit[0].equals("return-get-game")){
+//                    System.out.println("duy ok");
+//                    Client.AdminForm.setDataToTableTroChoi(getgame(messageSplit));
+//                    
+//                }
             }
         } catch (NumberFormatException e) {
             throw new RuntimeException(e);
@@ -74,6 +108,13 @@ public class SocketHandler implements Runnable {
                 Integer.parseInt(message[start + 3])
         );
     }
+//    public troChoi getGameFromString(int start, String[] message) {
+//        return new troChoi(Integer.parseInt(message[start]), 
+//                Integer.parseInt(message[start+1]), 
+//                message[start+2], 
+//                Integer.parseInt(message[start+3])
+//        );
+//    }
     
     
 

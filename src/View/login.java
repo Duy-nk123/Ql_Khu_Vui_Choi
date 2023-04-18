@@ -232,11 +232,9 @@ public class login extends javax.swing.JFrame {
 
     public void loginSuccess() {
         if (Client.taikhoan.getRole() == 0) {
-//            Client.closeView(Client.View.LOGIN);
-//            Client.openView(Client.View.ADMIN);
+            Client.closeView(Client.View.LOGIN);
+            Client.openView(Client.View.ADMIN);
 
-             this.dispose();
-            new adminForm().setVisible(true);
         } else if (Client.taikhoan.getRole() == 1) {
             Client.closeView(Client.View.LOGIN);
             Client.openView(Client.View.STAFF);

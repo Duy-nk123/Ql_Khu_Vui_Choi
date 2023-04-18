@@ -4,17 +4,57 @@
  */
 package View;
 
+import Controler.Client;
+import Model.troChoi;
+import java.io.IOException;
+import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Admin
  */
 public class adminForm extends javax.swing.JFrame {
+        private List<troChoi> listTroChoiStatics;
+         private DefaultTableModel tableGameModel;
+    
 
     /**
      * Creates new form adminForm
      */
     public adminForm() {
         initComponents();
+        try {
+                Client.socketHandler.write("init-game");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        tableGameModel = (DefaultTableModel) tbTroChoi3.getModel(); 
+      
+         
+     
+    }
+    
+
+    
+    
+    public void setDataToTableTroChoi(List<troChoi> game){
+        this.listTroChoiStatics = game;
+        tableGameModel.setRowCount(0);
+        System.out.println("duy oooo"+ listTroChoiStatics);
+        int i=0;
+        for(troChoi games : listTroChoiStatics){
+            System.out.println("duy"+ games.getGameName());
+            tableGameModel.addRow(new Object[]{
+                games.getIdGame(),
+                games.getIdKhu(),
+               games.getGameName(),
+               games.getStatus()
+            });
+            i++;
+        }
+
     }
 
     /**
@@ -153,8 +193,6 @@ public class adminForm extends javax.swing.JFrame {
         jPanel22 = new javax.swing.JPanel();
         jLabel43 = new javax.swing.JLabel();
         txtGiamGia6 = new javax.swing.JTextField();
-        jLabel44 = new javax.swing.JLabel();
-        txtGiamGia7 = new javax.swing.JTextField();
         jLabel47 = new javax.swing.JLabel();
         jComboBox13 = new javax.swing.JComboBox<>();
         jLabel48 = new javax.swing.JLabel();
@@ -162,7 +200,7 @@ public class adminForm extends javax.swing.JFrame {
         jButton27 = new javax.swing.JButton();
         btnThemVe7 = new javax.swing.JButton();
         jScrollPane7 = new javax.swing.JScrollPane();
-        tbBanVe3 = new javax.swing.JTable();
+        tbTroChoi3 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -1338,13 +1376,6 @@ public class adminForm extends javax.swing.JFrame {
 
         txtGiamGia6.setPreferredSize(new java.awt.Dimension(96, 40));
 
-        jLabel44.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel44.setText("Giá ");
-        jLabel44.setMaximumSize(new java.awt.Dimension(110, 25));
-        jLabel44.setMinimumSize(new java.awt.Dimension(110, 25));
-
-        txtGiamGia7.setPreferredSize(new java.awt.Dimension(96, 40));
-
         jLabel47.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel47.setText("Khu Vực");
         jLabel47.setMaximumSize(new java.awt.Dimension(110, 25));
@@ -1377,18 +1408,13 @@ public class adminForm extends javax.swing.JFrame {
                     .addGroup(jPanel22Layout.createSequentialGroup()
                         .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel22Layout.createSequentialGroup()
-                                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel44, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(jPanel22Layout.createSequentialGroup()
-                                        .addComponent(jLabel43, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 28, Short.MAX_VALUE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                .addComponent(jLabel43, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE))
                             .addGroup(jPanel22Layout.createSequentialGroup()
                                 .addComponent(jLabel47, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(54, 54, 54)))
                         .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jComboBox13, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtGiamGia7, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtGiamGia6, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(62, 62, 62))
         );
@@ -1399,10 +1425,6 @@ public class adminForm extends javax.swing.JFrame {
                 .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel43, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtGiamGia6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtGiamGia7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel44, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel47, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1411,7 +1433,7 @@ public class adminForm extends javax.swing.JFrame {
                 .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel48, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addContainerGap(132, Short.MAX_VALUE))
         );
 
         jButton27.setText("Thoát");
@@ -1462,15 +1484,15 @@ public class adminForm extends javax.swing.JFrame {
                 .addGap(38, 38, 38))
         );
 
-        tbBanVe3.setModel(new javax.swing.table.DefaultTableModel(
+        tbTroChoi3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Tên Trò Chơi", "Giá ", "Khu Vực", "Tình Trạng"
+                "ID", "Khu Vực", "Tên Trò Chơi", "Tình Trạng"
             }
         ));
-        jScrollPane7.setViewportView(tbBanVe3);
+        jScrollPane7.setViewportView(tbTroChoi3);
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -1696,7 +1718,6 @@ public class adminForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel43;
-    private javax.swing.JLabel jLabel44;
     private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
@@ -1751,7 +1772,7 @@ public class adminForm extends javax.swing.JFrame {
     private javax.swing.JTable tbBanVe;
     private javax.swing.JTable tbBanVe1;
     private javax.swing.JTable tbBanVe2;
-    private javax.swing.JTable tbBanVe3;
+    private javax.swing.JTable tbTroChoi3;
     private javax.swing.JTextField txtGiamGia;
     private javax.swing.JTextField txtGiamGia1;
     private javax.swing.JTextField txtGiamGia2;
@@ -1759,7 +1780,6 @@ public class adminForm extends javax.swing.JFrame {
     private javax.swing.JTextField txtGiamGia4;
     private javax.swing.JTextField txtGiamGia5;
     private javax.swing.JTextField txtGiamGia6;
-    private javax.swing.JTextField txtGiamGia7;
     private javax.swing.JTextField txtGiamGia8;
     // End of variables declaration//GEN-END:variables
 }
