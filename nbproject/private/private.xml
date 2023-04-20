@@ -5,10 +5,13 @@
         <group>
             <file>file:/E:/code_rac/Java_Swing/NEW/Ql_Khu_Vui_Choi/src/View/adminForm.java</file>
             <file>file:/E:/code_rac/Java_Swing/NEW/Ql_Khu_Vui_Choi/src/Controler/SocketHandler.java</file>
-            <file>file:/E:/code_rac/Java_Swing/NEW/Ql_Khu_Vui_Choi/src/View/QL_KhuVuiChoi.java</file>
+            <file>file:/E:/code_rac/Java_Swing/NEW/Ql_Khu_Vui_Choi/src/Model/khuVuc.java</file>
+            <file>file:/E:/code_rac/Java_Swing/NEW/Ql_Khu_Vui_Choi/src/View/staffView.java</file>
             <file>file:/E:/code_rac/Java_Swing/NEW/Ql_Khu_Vui_Choi/src/View/login.java</file>
             <file>file:/E:/code_rac/Java_Swing/NEW/Ql_Khu_Vui_Choi/src/Model/troChoi.java</file>
             <file>file:/E:/code_rac/Java_Swing/NEW/Ql_Khu_Vui_Choi/src/Controler/Client.java</file>
+            <file>file:/E:/code_rac/Java_Swing/NEW/Ql_Khu_Vui_Choi/src/Model/TaiKhoan.java</file>
+            <file>file:/E:/code_rac/Java_Swing/NEW/Ql_Khu_Vui_Choi/src/Model/staff.java</file>
         </group>
     </open-files>
 </project-private>

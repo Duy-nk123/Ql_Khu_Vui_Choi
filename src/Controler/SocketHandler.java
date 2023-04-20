@@ -11,9 +11,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import Model.TaiKhoan;
 import Controler.Client;
+import Model.khuVuc;
 import Model.troChoi;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 
 public class SocketHandler implements Runnable {
@@ -22,6 +28,7 @@ public class SocketHandler implements Runnable {
     private Socket socketOfClient;
     private int ID_Server;
     private int RoleDF = 0;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
     
 
     public SocketHandler() {
@@ -29,18 +36,48 @@ public class SocketHandler implements Runnable {
     }
     public List<troChoi> getgame(String[] message){
         List<troChoi> game = new ArrayList<>();
-        System.out.println("chua get");
         for(int i=1; i<message.length; i=i+4){
             game.add(new troChoi(Integer.parseInt(message[i]), 
                 Integer.parseInt(message[i+1]), 
                 message[i+2], 
                 Integer.parseInt(message[i+3])
             ));
-            
-            System.out.println("duy da ch0oi"+ game);
         }
         return game;
     }
+    public List<TaiKhoan> getUser(String[] message){
+    List<TaiKhoan> user = new ArrayList<>();
+    for(int i=1; i<message.length; i=i+11){
+        user.add(new TaiKhoan(
+            Integer.parseInt(message[i]), 
+            message[i+1],
+            message[i+2],
+            Integer.parseInt(message[i+3]),
+            message[i+4], 
+            message[i+5], 
+            message[i+6],
+            Integer.parseInt(message[i+7]),
+            message[i+8],
+            Integer.parseInt(message[i+9]),
+            Integer.parseInt(message[i+10])   
+        ));
+    }
+    return user;
+}
+
+    public List<khuVuc> getArena(String[] message){
+    List<khuVuc> arena = new ArrayList<>();
+    for(int i=1; i<message.length; i=i+4){
+        arena.add(new khuVuc(
+       Integer.parseInt(message[i]), 
+            message[i+1],
+     Time.valueOf(message[i+2]),
+   Time.valueOf(message[i+3])
+             
+        ));
+    }
+    return arena;
+}
     @Override
     public void run() {
         try {
@@ -76,21 +113,54 @@ public class SocketHandler implements Runnable {
                 }
                  // get game
                 if(messageSplit[0].equals("return-get-game")){
-                    System.out.println("hhh1");
                     if(Client.AdminForm!=null){
-                        System.out.println("hhh1");
                         Client.AdminForm.setDataToTableTroChoi(getgame(messageSplit));
-                        System.out.println("hhh");
                     }
                 }
-               
-                // get game
+                // delete game
+                if(messageSplit[0].equals("del-game-success")){
+                    if(Client.AdminForm!=null){
+                       JOptionPane.showMessageDialog(Client.AdminForm, "Xóa Trò Chơi Thành Công");
+                       
+                    }
+                }
+                 // get User
+                if(messageSplit[0].equals("return-get-User")){
+                    if(Client.AdminForm!=null){
+                       Client.AdminForm.setTableUser(getUser(messageSplit));
+                       
+                    }
+                }
                 
-//                if(messageSplit[0].equals("return-get-game")){
-//                    System.out.println("duy ok");
-//                    Client.AdminForm.setDataToTableTroChoi(getgame(messageSplit));
-//                    
-//                }
+                // add user
+                 if(messageSplit[0].equals("add-user-success")){
+                    if(Client.AdminForm!=null){
+                       JOptionPane.showMessageDialog(Client.AdminForm, "Thêm Tài Khoản Thành Công");
+                       
+                    }
+                }
+                 
+                // show khu vuc
+                 if(messageSplit[0].equals("return-get-arena")){
+                    if(Client.AdminForm!=null){
+                        Client.AdminForm.setJcbKhuVuc(getArena(messageSplit));
+                       
+                    }
+                }
+                // add khu vực
+                if(messageSplit[0].equals("add-zone-success")){
+                    if(Client.AdminForm!=null){
+                        JOptionPane.showMessageDialog(Client.AdminForm, "Thêm Khu Vực Thành Công");
+                       
+                    }
+                }
+                // update khu vục
+                 if(messageSplit[0].equals("change-arena-comple")){
+                    if(Client.AdminForm!=null){
+                        JOptionPane.showMessageDialog(Client.AdminForm, "Sửa Khu Vực Thành Công");
+                       
+                    }
+                }
             }
         } catch (NumberFormatException e) {
             throw new RuntimeException(e);

@@ -16,7 +16,7 @@ public class TaiKhoan {
     private String Password;
     private int Role;
     private String HoTen;
-    private Date NgaySinh;
+    private String NgaySinh;
     private String SDT;
     private int GioiTinh;
     private String DiaChi;
@@ -43,7 +43,7 @@ public class TaiKhoan {
         return HoTen;
     }
 
-    public Date getNgaySinh() {
+    public String getNgaySinh() {
         return NgaySinh;
     }
 
@@ -87,7 +87,7 @@ public class TaiKhoan {
         this.HoTen = HoTen;
     }
 
-    public void setNgaySinh(Date NgaySinh) {
+    public void setNgaySinh(String NgaySinh) {
         this.NgaySinh = NgaySinh;
     }
 
@@ -117,6 +117,21 @@ public class TaiKhoan {
         this.Password = Password;
         this.Role = Role;
     }
+
+    public TaiKhoan(int idUser, String Username, String Password, int Role, String HoTen, String NgaySinh, String SDT, int GioiTinh, String DiaChi, int Luong, int idKhu) {
+        this.idUser = idUser;
+        this.Username = Username;
+        this.Password = Password;
+        this.Role = Role;
+        this.HoTen = HoTen;
+        this.NgaySinh = NgaySinh;
+        this.SDT = SDT;
+        this.GioiTinh = GioiTinh;
+        this.DiaChi = DiaChi;
+        this.Luong = Luong;
+        this.idKhu = idKhu;
+    }
+    
 
    
 }
