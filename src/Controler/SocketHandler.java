@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import Model.TaiKhoan;
 import Controler.Client;
+import Model.dichVu;
 import Model.khuVuc;
 import Model.troChoi;
 import java.sql.Time;
@@ -78,6 +79,19 @@ public class SocketHandler implements Runnable {
     }
     return arena;
 }
+    
+     public List<dichVu> getservice(String[] message){
+    List<dichVu> service = new ArrayList<>();
+    for(int i=1; i<message.length; i=i+4){
+        service.add(new dichVu(
+        Integer.parseInt(message[i]),
+                message[i+1],
+                Integer.parseInt(message[i+2]),
+                Integer.parseInt(message[i+3])
+        ));
+    }
+    return  service;
+}
     @Override
     public void run() {
         try {
@@ -139,6 +153,26 @@ public class SocketHandler implements Runnable {
                        
                     }
                 }
+                 if(messageSplit[0].equals("duplicate-username")){
+                    if(Client.AdminForm!=null){
+                       JOptionPane.showMessageDialog(Client.AdminForm, "Thêm Tài Khoản Thất Bại. Tên Tài Khoản không được trùng");
+                       
+                    }
+                }
+                // find user
+                if(messageSplit[0].equals("return-find-user")){
+                    if(Client.AdminForm!=null){
+                       Client.AdminForm.setTableUser(getUser(messageSplit));
+                       
+                    }
+                }
+                // xoa user
+                if(messageSplit[0].equals("del-user-success")){
+                    if(Client.AdminForm!=null){
+                        JOptionPane.showMessageDialog(Client.AdminForm, "Xóa Nhân Viên Thành Công");
+                       
+                    }
+                }
                  
                 // show khu vuc
                  if(messageSplit[0].equals("return-get-arena")){
@@ -159,6 +193,50 @@ public class SocketHandler implements Runnable {
                     if(Client.AdminForm!=null){
                         JOptionPane.showMessageDialog(Client.AdminForm, "Sửa Khu Vực Thành Công");
                        
+                    }
+                }
+                 
+                // xóa khu vực
+                if(messageSplit[0].equals("del-area-success")){
+                    if(Client.AdminForm!=null){
+                        JOptionPane.showMessageDialog(Client.AdminForm, "Xóa Khu Vực Thành Công");
+                       
+                    }
+                }
+                
+                // Tìm Kiếm Khu Vực
+                if(messageSplit[0].equals("return-find-area")){
+                    if(Client.AdminForm!=null){
+                        Client.AdminForm.setJcbKhuVuc(getArena(messageSplit));
+                       
+                    }
+                }
+                
+                
+               // hiển thị dịch vụ
+                if(messageSplit[0].equals("return-get-service")){
+                    if(Client.AdminForm!=null){
+                        Client.AdminForm.setTableDichVu(getservice(messageSplit));
+                    }
+                }
+                // add dịch vụ
+                
+                if(messageSplit[0].equals("add-service-success")){
+                    if(Client.AdminForm!=null){
+                         JOptionPane.showMessageDialog(Client.AdminForm, "Thêm Dịch Vụ Thành Công"); 
+                    }
+                }
+                  
+                // xoa dich vu
+                if(messageSplit[0].equals("del-service-success")){
+                    if(Client.AdminForm!=null){
+                         JOptionPane.showMessageDialog(Client.AdminForm, "Xóa Dịch Vụ Thành Công"); 
+                    }
+                }
+                // tim kiem dich vu
+                if(messageSplit[0].equals("return-find-service")){
+                    if(Client.AdminForm!=null){
+                        Client.AdminForm.setTableDichVu(getservice(messageSplit));
                     }
                 }
             }
