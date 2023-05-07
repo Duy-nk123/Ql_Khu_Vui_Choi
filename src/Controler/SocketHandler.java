@@ -11,8 +11,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import Model.TaiKhoan;
 import Controler.Client;
+import Model.User;
+import Model.Ve;
 import Model.dichVu;
+import Model.hoaDon;
 import Model.khuVuc;
+import Model.staff;
 import Model.troChoi;
 import java.sql.Time;
 import java.time.LocalDate;
@@ -29,6 +33,7 @@ public class SocketHandler implements Runnable {
     private Socket socketOfClient;
     private int ID_Server;
     private int RoleDF = 0;
+    public int idTTCN;
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
     
 
@@ -79,6 +84,26 @@ public class SocketHandler implements Runnable {
     }
     return arena;
 }
+     public List<Ve> getVe(String[] message){
+    List<Ve> ve = new ArrayList<>();
+    for(int i=1; i<message.length; i=i+3){
+        ve.add(new Ve(
+       Integer.parseInt(message[i]), 
+            message[i+1],
+     Integer.parseInt(message[i+2])  
+        ));
+    }
+    return ve;
+}
+     public List<hoaDon> getIDHDVe(String[] message){
+     List<hoaDon> hd = new ArrayList<>();
+   
+        hd.add(new hoaDon(
+       Integer.parseInt(message[1]) 
+        ));
+    
+    return hd;
+}
     
      public List<dichVu> getservice(String[] message){
     List<dichVu> service = new ArrayList<>();
@@ -92,6 +117,44 @@ public class SocketHandler implements Runnable {
     }
     return  service;
 }
+     
+     public List<User> getTTCN(String[] message){
+    List<User> TK = new ArrayList<>();
+    for(int i=1; i<message.length; i=i+11){
+        TK.add(new User(
+                Integer.parseInt(message[i]),
+                message[i+1],
+                message[i+2],
+                Integer.parseInt(message[i+3]),
+                message[i+4],
+                message[i+5],
+                message[i+6],
+                Integer.parseInt(message[i+7]),
+                message[i+8],   
+                Integer.parseInt(message[i+9]),
+                Integer.parseInt(message[i+10])
+        ));
+    }
+    return  TK;
+}
+     
+     public List<hoaDon> getBillAdmin(String[] message){
+    List<hoaDon> TK = new ArrayList<>();
+    for(int i=1; i<message.length; i=i+4){
+        TK.add(new hoaDon(
+                Integer.parseInt(message[i]),
+                 message[i+1],
+                Integer.parseInt(message[i+2]),
+                Integer.parseInt(message[i+3])         
+        ));
+    }
+    return  TK;
+}
+     
+     
+
+     
+     
     @Override
     public void run() {
         try {
@@ -116,10 +179,18 @@ public class SocketHandler implements Runnable {
 
                 //Đăng nhập thành công
                 if (messageSplit[0].equals("login-success")) {
-                    System.out.println("Đăng nhập thành công");
+                    idTTCN = Integer.parseInt(messageSplit[1]);
+                 
+                try {
+                Client.socketHandler.write("show-user-info"+ "="+  idTTCN);
+                } catch (IOException ex) {
+                throw new RuntimeException(ex);
+                }
                     Client.taikhoan = getUserFromString(1,messageSplit);
                   //   Client. = getUserFromString(1,messageSplit);
                     Client.Login.loginSuccess();
+                    
+                    
                 }
                 //Thông tin tài khoản sai
                 if (messageSplit[0].equals("wrong-user")) {
@@ -177,7 +248,16 @@ public class SocketHandler implements Runnable {
                 // show khu vuc
                  if(messageSplit[0].equals("return-get-arena")){
                     if(Client.AdminForm!=null){
-                        Client.AdminForm.setJcbKhuVuc(getArena(messageSplit));
+                        Client.AdminForm.setJcbKhuVuc(getArena(messageSplit));   
+                    }else if(Client.ServiceStaff!=null){
+                        Client.ServiceStaff.setJcbKhuVuc(getArena(messageSplit));
+                    }
+                    else if(Client.Staff!=null){
+                        Client.Staff.setJcbKhuVuc(getArena(messageSplit));
+                       
+                    }
+                    else if(Client.Technician!=null){
+                        Client.Technician.setJcbKhuVuc(getArena(messageSplit));
                        
                     }
                 }
@@ -220,7 +300,6 @@ public class SocketHandler implements Runnable {
                     }
                 }
                 // add dịch vụ
-                
                 if(messageSplit[0].equals("add-service-success")){
                     if(Client.AdminForm!=null){
                          JOptionPane.showMessageDialog(Client.AdminForm, "Thêm Dịch Vụ Thành Công"); 
@@ -239,6 +318,131 @@ public class SocketHandler implements Runnable {
                         Client.AdminForm.setTableDichVu(getservice(messageSplit));
                     }
                 }
+                // cập nhật dịch vụ
+                if(messageSplit[0].equals("change-service-complete")){
+                    if(Client.AdminForm!=null){
+                         JOptionPane.showMessageDialog(Client.AdminForm, "Cập Nhật Dịch Vụ Thành Công"); 
+                    }
+                }
+                
+                
+                // show ve
+                 if(messageSplit[0].equals("return-get-ticket")){
+                    if(Client.AdminForm!=null){
+                        Client.AdminForm. setDataToTableVe(getVe(messageSplit));
+                    }
+                     if(Client.Staff!=null){
+                        Client.Staff. setJcbVe(getVe(messageSplit));
+                    }
+                }
+                // tim kiem ve
+                
+                 if(messageSplit[0].equals("return-find-ticket")){
+                    if(Client.AdminForm!=null){
+                        Client.AdminForm. setDataToTableVe(getVe(messageSplit));
+                      
+                        
+                    }
+                    if(Client.Staff!=null){
+                        Client.Staff. setDataToTableVe(getVe(messageSplit));
+                        
+                      
+                        
+                    }
+                }
+                 
+                // cap nhat ve
+                if(messageSplit[0].equals("change-ticket-complete")){
+                    if(Client.AdminForm!=null){
+                         JOptionPane.showMessageDialog(Client.AdminForm, "Cập Nhật Vé Thành Công"); 
+                    }
+                }
+                // xoa vé
+                if(messageSplit[0].equals("del-ticket-success")){
+                    if(Client.AdminForm!=null){
+                         JOptionPane.showMessageDialog(Client.AdminForm, "Xóa Vé Thành Công"); 
+                    }
+                }
+                
+                // thêm vé
+                if(messageSplit[0].equals("add-ticket-success")){
+                    if(Client.AdminForm!=null){
+                         JOptionPane.showMessageDialog(Client.AdminForm, "Thêm Vé Thành Công"); 
+                    }
+                }
+                // Lấy ID hóa đơn vé
+                
+                if(messageSplit[0].equals("add-ticket-bill-success")){
+                    if(Client.Staff!=null){
+                          Client.Staff. setIDHDV(getIDHDVe(messageSplit));
+                    }
+                }
+                // thông tin cá nhân
+                 if(messageSplit[0].equals("return-find-user")){
+                    if(Client.AdminForm!=null){
+                         Client.AdminForm. setTTCN(getTTCN(messageSplit));
+                    }else  if(Client.ServiceStaff!=null){
+                         Client.ServiceStaff. setTTCN(getTTCN(messageSplit));
+                    }else  if(Client.Staff!=null){
+                         Client.Staff. setTTCN(getTTCN(messageSplit));
+                    }else  if(Client.Technician!=null){
+                         Client.Technician. setTTCN(getTTCN(messageSplit));
+                    }
+                }
+                 
+                 // update tt ca nhan
+                 if(messageSplit[0].equals("update-staff-info-success")){
+                     
+                      
+                    if(Client.AdminForm!=null){
+                        JOptionPane.showMessageDialog(Client.AdminForm, "Cập Nhật Thông Tin Thành Công"); 
+                         try {
+                            Client.socketHandler.write("show-user-info"+ "="+  idTTCN);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        } 
+                
+                    }else if(Client.ServiceStaff!=null){
+                        JOptionPane.showMessageDialog(Client.ServiceStaff, "Cập Nhật Thông Tin Thành Công"); 
+                         try {
+                            Client.socketHandler.write("show-user-info"+ "="+  idTTCN);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        } 
+                
+                    }else if(Client.Staff!=null){
+                        JOptionPane.showMessageDialog(Client.Staff, "Cập Nhật Thông Tin Thành Công"); 
+                         try {
+                            Client.socketHandler.write("show-user-info"+ "="+  idTTCN);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        } 
+                
+                    }else if(Client.Technician!=null){
+                        JOptionPane.showMessageDialog(Client.Technician, "Cập Nhật Thông Tin Thành Công"); 
+                         try {
+                            Client.socketHandler.write("show-user-info"+ "="+  idTTCN);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        } 
+                
+                    }
+                }
+                 
+                 // show thong ke vé
+                
+                  if(messageSplit[0].equals("show-bill-admin")){
+                    if(Client.AdminForm!=null){
+                         Client.AdminForm. setDataToTableThongKe(getBillAdmin(messageSplit));
+                    }else if(Client.ServiceStaff!=null){
+                         Client.ServiceStaff. setDataToTableThongKe(getBillAdmin(messageSplit));
+                    }else if(Client.Staff!=null){
+                         Client.Staff. setDataToTableThongKe(getBillAdmin(messageSplit));
+                    }
+                    
+                }        
+                
+                
             }
         } catch (NumberFormatException e) {
             throw new RuntimeException(e);
@@ -256,13 +460,7 @@ public class SocketHandler implements Runnable {
                 Integer.parseInt(message[start + 3])
         );
     }
-//    public troChoi getGameFromString(int start, String[] message) {
-//        return new troChoi(Integer.parseInt(message[start]), 
-//                Integer.parseInt(message[start+1]), 
-//                message[start+2], 
-//                Integer.parseInt(message[start+3])
-//        );
-//    }
+  
     
     
 
