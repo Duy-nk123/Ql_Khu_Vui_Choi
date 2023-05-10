@@ -7,8 +7,11 @@ package View;
 import Controler.Client;
 import Model.User;
 import Model.khuVuc;
+import Model.troChoi;
 import java.io.IOException;
 import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,6 +20,11 @@ import java.util.List;
 public class techniciansMenu extends javax.swing.JFrame {
       private List<User> listTTStatics;
        private List<khuVuc> listKhuVucStatics;
+       private List<troChoi> listTroChoiStatics;
+         private DefaultTableModel tableModel;
+       
+       int logoutID;
+       String idGame;
 
     /**
      * Creates new form techniciansMenu
@@ -28,6 +36,36 @@ public class techniciansMenu extends javax.swing.JFrame {
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
+        try {
+                Client.socketHandler.write("show-game");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        
+    }
+    public void setDataToTableTroChoi(List<troChoi> game){
+            String TTGame;
+       
+         tableModel = (DefaultTableModel) jTable1.getModel(); 
+        this.listTroChoiStatics = game;
+         tableModel.setRowCount(0);
+           int i=0;
+            for(troChoi games : listTroChoiStatics){ 
+             int ttGame = games.getStatus();
+             if(ttGame == 0){
+                TTGame = "Tốt" ;
+             }else{
+                  TTGame = "Bảo Trì" ;
+             }
+            tableModel.addRow(new Object[]{
+                games.getIdGame(),
+                games.getIdKhu(),
+               games.getGameName(),
+                TTGame
+            });
+            i++;
+        }
+
     }
       public void setJcbKhuVuc(List<khuVuc> arena){
         
@@ -89,7 +127,8 @@ public class techniciansMenu extends javax.swing.JFrame {
                 } 
             } 
                TK.setText(TT.getUsername());
-               MK.setText(TT.getPassword());           
+               MK.setText(TT.getPassword());    
+               logoutID = TT.getIdUser();
         }
             
             i++;
@@ -122,7 +161,8 @@ public class techniciansMenu extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox4 = new javax.swing.JComboBox<>();
+        jCbTinhTrang = new javax.swing.JComboBox<>();
+        jButton7 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
@@ -189,6 +229,8 @@ public class techniciansMenu extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(204, 255, 204));
         jPanel2.setForeground(new java.awt.Color(102, 255, 102));
 
+        jTabbedPane2.setBackground(new java.awt.Color(255, 255, 255));
+
         jPanel4.setBackground(new java.awt.Color(255, 102, 102));
 
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
@@ -204,7 +246,7 @@ public class techniciansMenu extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Khu Vực", "Tên Trò Chơi", "Tình Trạng"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -218,9 +260,19 @@ public class techniciansMenu extends javax.swing.JFrame {
             }
         });
 
-        jButton5.setText("Cập Nhật");
+        jButton5.setText("Sửa");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setText("Trở Lại");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jTextField1.setPreferredSize(new java.awt.Dimension(96, 40));
 
@@ -234,9 +286,16 @@ public class techniciansMenu extends javax.swing.JFrame {
         jLabel3.setMaximumSize(new java.awt.Dimension(110, 25));
         jLabel3.setMinimumSize(new java.awt.Dimension(110, 25));
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox4.setMinimumSize(new java.awt.Dimension(108, 40));
-        jComboBox4.setPreferredSize(new java.awt.Dimension(108, 40));
+        jCbTinhTrang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tốt", "Bảo Trì" }));
+        jCbTinhTrang.setMinimumSize(new java.awt.Dimension(108, 40));
+        jCbTinhTrang.setPreferredSize(new java.awt.Dimension(108, 40));
+
+        jButton7.setText("Lưu");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -252,9 +311,10 @@ public class techniciansMenu extends javax.swing.JFrame {
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                         .addGap(26, 26, 26)
-                        .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jCbTinhTrang, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(153, 153, 153)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -267,10 +327,8 @@ public class techniciansMenu extends javax.swing.JFrame {
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -278,8 +336,12 @@ public class techniciansMenu extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(96, Short.MAX_VALUE))
+                            .addComponent(jCbTinhTrang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(66, 66, 66))
         );
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
@@ -613,7 +675,12 @@ public class techniciansMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        
+        try {
+                Client.socketHandler.write("find-game"+"="+jTextField1.getText());
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -653,8 +720,75 @@ public class techniciansMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        // TODO add your handling code here:
+        try {
+            Client.socketHandler.write("offline"+"="+logoutID);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        }
+        Client.closeView(Client.View.TECHNISTANS);
+        Client.openView(Client.View.LOGIN);
     }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+       jTextField1.setEditable(false);
+        int updategame = jTable1.getSelectedRow();
+        if (jTable1.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(rootPane, " Hãy thêm thông tin vào bảng trước khi sửa!");
+        } else if (updategame == -1) {
+            JOptionPane.showMessageDialog(rootPane, " Hãy chọn 1 dòng trong bảng trước khi sửa!");
+        } else {
+            idGame = jTable1.getValueAt(updategame, 1).toString();
+            String updateGameName = jTable1.getValueAt(updategame, 2).toString();
+            jTextField1.setText(updateGameName);
+            
+            String updateTTGame = jTable1.getValueAt(updategame, 3).toString();
+            if(updateTTGame.equals("0")){
+                updateTTGame = "Tốt";
+            }else if(updateTTGame.equals("1")){
+                updateTTGame = "Bảo Trì";
+            }
+           
+            for(int i = 0; i< jCbTinhTrang.getItemCount();i++){
+                if(updateTTGame.equals(String.valueOf(jCbTinhTrang.getItemAt(i)))){
+                    jCbTinhTrang.setSelectedIndex(i);
+                }
+            }
+
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        jTextField1.setEditable(true);       
+        
+        String tinhtrangGame = jCbTinhTrang.getSelectedItem().toString();
+        int ttGame;
+        if(tinhtrangGame.equals("Tốt")){
+            ttGame = 0;
+        }else{
+            ttGame = 1;
+        }
+
+        try {
+            Client.socketHandler.write("update-game-status"+"="+idGame+"="+ttGame);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        try {
+                Client.socketHandler.write("show-game");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        jTextField1.setText("");
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        jTextField1.setText("");
+        try {
+                Client.socketHandler.write("show-game");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -703,9 +837,10 @@ public class techniciansMenu extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jCbChucVu;
     private javax.swing.JComboBox<String> jCbGioiTinh;
-    private javax.swing.JComboBox<String> jComboBox4;
+    private javax.swing.JComboBox<String> jCbTinhTrang;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;

@@ -201,12 +201,24 @@ public class SocketHandler implements Runnable {
                     if(Client.AdminForm!=null){
                         Client.AdminForm.setDataToTableTroChoi(getgame(messageSplit));
                     }
+                    if(Client.Technician!=null){
+                        Client.Technician.setDataToTableTroChoi(getgame(messageSplit));
+                    }
                 }
                 // delete game
                 if(messageSplit[0].equals("del-game-success")){
                     if(Client.AdminForm!=null){
                        JOptionPane.showMessageDialog(Client.AdminForm, "Xóa Trò Chơi Thành Công");
                        
+                    }
+                }
+                // find game 
+                 if(messageSplit[0].equals("return-find-game")){
+                    if(Client.AdminForm!=null){
+                        Client.AdminForm.setDataToTableTroChoi(getgame(messageSplit));
+                    }
+                    if(Client.Technician!=null){
+                        Client.Technician.setDataToTableTroChoi(getgame(messageSplit));
                     }
                 }
                  // get User
@@ -298,6 +310,9 @@ public class SocketHandler implements Runnable {
                     if(Client.AdminForm!=null){
                         Client.AdminForm.setTableDichVu(getservice(messageSplit));
                     }
+                    if(Client.ServiceStaff!=null){
+                        Client.ServiceStaff. setJcbDV(getservice(messageSplit));
+                    }
                 }
                 // add dịch vụ
                 if(messageSplit[0].equals("add-service-success")){
@@ -317,6 +332,9 @@ public class SocketHandler implements Runnable {
                     if(Client.AdminForm!=null){
                         Client.AdminForm.setTableDichVu(getservice(messageSplit));
                     }
+                    if(Client.ServiceStaff!=null){
+                        Client.ServiceStaff. setTableDichVu(getservice(messageSplit));
+                    }
                 }
                 // cập nhật dịch vụ
                 if(messageSplit[0].equals("change-service-complete")){
@@ -325,6 +343,16 @@ public class SocketHandler implements Runnable {
                     }
                 }
                 
+                // lấy id hoa don dich vu
+                if(messageSplit[0].equals("add-service-bill-success")){
+
+                    if(Client.ServiceStaff!=null){
+                          Client.ServiceStaff.IDHDDV.add(new String(messageSplit[1]));
+                          Client.ServiceStaff.addCTHDDV();
+                          
+                          
+                    }
+                }
                 
                 // show ve
                  if(messageSplit[0].equals("return-get-ticket")){
@@ -340,13 +368,10 @@ public class SocketHandler implements Runnable {
                  if(messageSplit[0].equals("return-find-ticket")){
                     if(Client.AdminForm!=null){
                         Client.AdminForm. setDataToTableVe(getVe(messageSplit));
-                      
-                        
                     }
                     if(Client.Staff!=null){
                         Client.Staff. setDataToTableVe(getVe(messageSplit));
-                        
-                      
+//                        Client.Staff.addCTDHV();
                         
                     }
                 }
@@ -373,8 +398,13 @@ public class SocketHandler implements Runnable {
                 // Lấy ID hóa đơn vé
                 
                 if(messageSplit[0].equals("add-ticket-bill-success")){
+
+                    
                     if(Client.Staff!=null){
-                          Client.Staff. setIDHDV(getIDHDVe(messageSplit));
+                          Client.Staff.IDHDV.add(new String(messageSplit[1]));
+                          
+                          
+                          
                     }
                 }
                 // thông tin cá nhân
@@ -438,6 +468,7 @@ public class SocketHandler implements Runnable {
                          Client.ServiceStaff. setDataToTableThongKe(getBillAdmin(messageSplit));
                     }else if(Client.Staff!=null){
                          Client.Staff. setDataToTableThongKe(getBillAdmin(messageSplit));
+                         
                     }
                     
                 }        

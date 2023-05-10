@@ -12,6 +12,7 @@ import Model.hoaDon;
 import Model.khuVuc;
 import java.awt.print.PrinterException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import java.util.Date;
@@ -30,25 +31,39 @@ public class staffView extends javax.swing.JFrame {
         private List<User> listTTStatics;
          private List<khuVuc> listKhuVucStatics;
           private List<Ve> listVeStatics;
-          
-          
-           
+          public ArrayList<String> IDHDV = new ArrayList<>();
+     
     private DefaultTableModel tableModel;
-
     DefaultTableModel ve;
     
     int  updategame;
     int giaVe;
-    int idHDV;
+    int idHDVe;
     int idVe;
+    int logoutID;
+    // tính ttổng hóa đơn
     int tongbill;
     int sum ;
+    // tổng thống kê
+    int sumTK;
+    /// chi tiet hoa don ve
+    int SW=1;
+     int a = 0;
+      String IDNV ;
+     
+     
+     // tong tien bill
     String giamGia;
     String ngayhientai;
     Object soluong ;
     Object thanhtien;
     
-   
+   // lấy ngày 
+    Date currentDate = new Date();
+    int day = currentDate.getDate();
+    int month = currentDate.getMonth() + 1; // Tháng bắt đầu từ 0, nên cộng thêm 1 để lấy tháng thực tế
+    int year = currentDate.getYear() + 1900; // Năm được tính từ 1900, nên cộng thêm 1900 để lấy năm thực tế
+    String ngayHienTai = (year+"-"+month+"-"+day);
 
     /**
      * Creates new form staffView
@@ -68,15 +83,7 @@ public class staffView extends javax.swing.JFrame {
         
         
         // lấy ngày hiện tại
-        
-        
-       
-
-                Date currentDate = new Date();
-                int day = currentDate.getDate();
-                int month = currentDate.getMonth() + 1; // Tháng bắt đầu từ 0, nên cộng thêm 1 để lấy tháng thực tế
-                int year = currentDate.getYear() + 1900; // Năm được tính từ 1900, nên cộng thêm 1900 để lấy năm thực tế
-                txtNgayTao.setText(year+"-" + month+"-" +day);
+            txtNgayTao.setText(year+"-" + month+"-" +day);
                
                
           txtGiamGia.setText("0");
@@ -123,8 +130,56 @@ public class staffView extends javax.swing.JFrame {
         }
  
  }
-    
-    
+     public void TK_print(){
+ 
+        try {
+            bill1.setText("\t       Khu Vui Chơi TNIT \n");
+            bill1.setText(bill1.getText() + "\t       Tên NV:"+ HT.getText()+"  ("+ MNV.getText()+")"+"\n");
+            bill1.setText(bill1.getText() + "\t       Điện Thoại:+84 3689999999, \n");
+            bill1.setText(bill1.getText() + "\t       Ngày Lập:"+ txtNgayTao.getText()+ "\n" );
+            
+            bill1.setText(bill1.getText() + "---------------------------------------------------------------------------------------------\n");
+            bill1.setText(bill1.getText() + "\tID       IDNhân Viên\t Ngày Tạo\tThành Tiền \n");
+            bill1.setText(bill1.getText() +"---------------------------------------------------------------------------------------------\n");
+            
+            DefaultTableModel df = (DefaultTableModel) tbleTK.getModel();
+            for (int i = 0; i < tbleTK.getRowCount(); i++) {
+                
+                String name = df.getValueAt(i, 0).toString();
+                String qt = df.getValueAt(i, 1).toString();
+                String prct = df.getValueAt(i, 2).toString();
+                String prc = df.getValueAt(i, 3).toString();
+                
+                
+                bill1.setText(bill1.getText()+"\t"+name+"\t"+qt+"\t"+prct+"\t"+prc+" \n");
+                
+            }
+            bill1.setText(bill1.getText() + "---------------------------------------------------------------------------------------------\n");
+            bill1.setText(bill1.getText()+"\t Tổng Tiền: "+ sumTK +".000 \n" );
+            bill1.setText(bill1.getText() + "===================================================\n");
+            bill1.setText(bill1.getText() +"\tThanks For Your Business...!"+"\n");
+            bill1.setText(bill1.getText() + "---------------------------------------------------------------------------------------------\n");
+            bill1.setText(bill1.getText() +"\tSoftware by TNIT"+"\n");
+            
+            
+            bill1.print();
+            
+        } catch (PrinterException ex) {
+            
+            Logger.getLogger(staffView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+ 
+ }
+     
+     private void tongThongKe(){
+         sumTK=0;
+        // Tính tổng các giá trị trong cột thứ i
+        int i = 3; // thay bằng số thứ tự của cột bạn muốn tính tổng
+        int numRows = tbleTK.getRowCount();
+        for (int row = 0; row < numRows; row++) {
+            sumTK += Integer.parseInt(tbleTK.getValueAt(row, i).toString());
+        }
+     }
         public void setJcbVe(List<Ve> ve){
             cbLoaiVe.removeAllItems();
         this.listVeStatics = ve;
@@ -133,7 +188,6 @@ public class staffView extends javax.swing.JFrame {
             cbLoaiVe.addItem(String.valueOf(Ves.getLoaiVe()));  
             i++;
         }
-      
     }
    
      public void setDataToTableVe(List<Ve> ve){
@@ -145,26 +199,26 @@ public class staffView extends javax.swing.JFrame {
             idVe = ves.getIdVe();
             i++;
         }
-         System.out.println(idVe);
      String a =   txtSoLuong.getText();
        if(a!= null && !a.equals("")){
            add();
        }else{
-          
+           addCTDHV();
        }
     }
 
-      public void setIDHDV(List<hoaDon> hd){
-         
-        this.listHoaDonStatics = hd;
-        int i=0;
-        for(hoaDon ves : listHoaDonStatics){ 
-            idHDV = ves.getIdHDV();
-            i++;
-        }
-          System.out.println("id hóa dơn vé "+ idHDV);
-        
-    }
+//      public void setIDHDV(List<hoaDon> hd){
+//         
+//        this.listHoaDonStatics = hd;
+//        int i=0;
+//        for(hoaDon ves : listHoaDonStatics){ 
+//             idHDVe = ves.getIdHDV();
+//            i++;
+//        }
+//         addCTDHV();
+//        
+//        
+//    }
     public void setTTCN(List<User> TTCN){ 
         this.listTTStatics = TTCN;
         int i=0;
@@ -209,7 +263,8 @@ public class staffView extends javax.swing.JFrame {
                 } 
             } 
                TK.setText(TT.getUsername());
-               MK.setText(TT.getPassword());           
+               MK.setText(TT.getPassword()); 
+               logoutID = TT.getIdUser();
         }
             
             i++;
@@ -218,7 +273,7 @@ public class staffView extends javax.swing.JFrame {
     public void setDataToTableThongKe(List<hoaDon> hoadon){
            
        
-         tableModel = (DefaultTableModel) jTable2.getModel(); 
+         tableModel = (DefaultTableModel) tbleTK.getModel(); 
         this.listHoaDonStatics = hoadon;
         tableModel.setRowCount(0);
         
@@ -226,7 +281,7 @@ public class staffView extends javax.swing.JFrame {
         for(hoaDon hd : listHoaDonStatics){ 
             tableModel.addRow(new Object[]{
                hd.getIdHDV(),
-               hd.getIdHDV(),
+               hd.getIdNV(),
                hd.getNgayLap(),
                hd.getTongTien()
             });
@@ -274,10 +329,10 @@ public class staffView extends javax.swing.JFrame {
         }
     }
     private void addHDV(){
-        String IDNV = MNV.getText();
+       
         String ngayTao = txtNgayTao.getText();
         try {
-                Client.socketHandler.write("add-ticket-bill"+"="+ ngayTao+"="+IDNV+"="+tongbill);
+                Client.socketHandler.write("add-ticket-bill"+"="+ ngayTao+"="+logoutID+"="+tongbill);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -294,34 +349,49 @@ public class staffView extends javax.swing.JFrame {
     for (int row = 0; row < numRows; row++) {
         sum += Integer.parseInt(tbBanVe.getValueAt(row, i).toString());
     }
-    tongbill = sum - (sum * Integer.parseInt(giamGia) / 100);
-        
-    
+    tongbill += sum - (sum * Integer.parseInt(giamGia) / 100);  
 
     }
    
-    private void addCTDHV(){
+    public void addCTDHV(){
+                 String lastChar;
+         if (IDHDV.size() == 1) { // nếu chuỗi chỉ có 1 phần tử
+            lastChar = IDHDV.get(0);
+        } else { // nếu chuỗi có nhiều hơn 1 phần tử
+            lastChar = IDHDV.get(IDHDV.size() - 1);
+        }
+      int row = tbBanVe.getRowCount();
+       
         try {
-                Client.socketHandler.write("add-detail-ticket"+ "="+ idHDV+ "="+ idVe+ "="+soluong+ "="+thanhtien);
-        
+                Client.socketHandler.write("add-detail-ticket"+ "="+ lastChar+ "="+ idVe+ "="+soluong+ "="+thanhtien);
+             
+                
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
+        
+       
+        SW++;
+        if(SW>=row){
+            SW = row;
+        }
+        CTHDV();
+       
     }
     private void CTHDV(){
-        int row = tbBanVe.getRowCount();
-        for(int i =0; i<= 0;i++){
-            Object loaive = tbBanVe.getValueAt(i, 0);
-            soluong = tbBanVe.getValueAt(i, 1);
-            thanhtien = tbBanVe.getValueAt(i, 3);
+
+            while( a < SW){
+                Object loaive = tbBanVe.getValueAt(a, 0);
+            soluong = tbBanVe.getValueAt(a, 1);
+            thanhtien = tbBanVe.getValueAt(a, 3);
             try {
                 Client.socketHandler.write("find-ticket"+ "="+ loaive);
         
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
-             addCTDHV();
-        }
+            a++;
+            }
     }
     
     private void xoaTrang() {
@@ -364,9 +434,8 @@ public class staffView extends javax.swing.JFrame {
         bill = new javax.swing.JTextArea();
         jPanel5 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
-        jPanel13 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tbleTK = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel28 = new javax.swing.JLabel();
         jTextField17 = new javax.swing.JTextField();
@@ -379,6 +448,8 @@ public class staffView extends javax.swing.JFrame {
         jButton10 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
         jButton14 = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        bill1 = new javax.swing.JTextArea();
         jPanel9 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
@@ -583,14 +654,14 @@ public class staffView extends javax.swing.JFrame {
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
-                .addGap(25, 29, Short.MAX_VALUE))
+                .addGap(25, 41, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 344, Short.MAX_VALUE)
                 .addGap(15, 15, 15))
         );
 
@@ -611,20 +682,7 @@ public class staffView extends javax.swing.JFrame {
 
         jPanel12.setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel13.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
-        jPanel13.setLayout(jPanel13Layout);
-        jPanel13Layout.setHorizontalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 247, Short.MAX_VALUE)
-        );
-        jPanel13Layout.setVerticalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 285, Short.MAX_VALUE)
-        );
-
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tbleTK.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -632,10 +690,10 @@ public class staffView extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "IDNV", "Ngày Lập", "Thành Tiền"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tbleTK);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -666,8 +724,8 @@ public class staffView extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(43, 43, 43)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(32, 32, 32)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -681,12 +739,12 @@ public class staffView extends javax.swing.JFrame {
                         .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(26, 26, 26)
                         .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(89, 89, 89))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addGap(57, 57, 57)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -698,10 +756,15 @@ public class staffView extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addContainerGap(115, Short.MAX_VALUE))
         );
 
         jButton2.setText("Thống Kê");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton9.setText("Thống Kê Ngày");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
@@ -718,55 +781,69 @@ public class staffView extends javax.swing.JFrame {
         });
 
         jButton13.setText("In Danh Sách");
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
 
         jButton14.setText("Thoát");
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
+
+        bill1.setColumns(20);
+        bill1.setRows(5);
+        jScrollPane4.setViewportView(bill1);
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
         jPanel12Layout.setHorizontalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(21, 21, 21)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel12Layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(93, 93, 93)
-                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel12Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 977, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jButton13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton10, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(28, 28, 28)
+                        .addComponent(jScrollPane4))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 977, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel12Layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel12Layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
+                            .addGroup(jPanel12Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel12Layout.createSequentialGroup()
+                                .addGap(64, 64, 64)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(30, 30, 30))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -774,7 +851,7 @@ public class staffView extends javax.swing.JFrame {
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1024, Short.MAX_VALUE)
+            .addComponent(jPanel12, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1019,7 +1096,7 @@ public class staffView extends javax.swing.JFrame {
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(MK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(211, Short.MAX_VALUE))
+                .addContainerGap(242, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
@@ -1041,7 +1118,7 @@ public class staffView extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1012, Short.MAX_VALUE)
+                .addComponent(jTabbedPane2)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -1071,6 +1148,7 @@ public class staffView extends javax.swing.JFrame {
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
+      
        
         
     }//GEN-LAST:event_btnThemVeActionPerformed
@@ -1126,35 +1204,100 @@ public class staffView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        // TODO add your handling code here:
+        try {
+            Client.socketHandler.write("offline"+"="+logoutID);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        }
+        Client.closeView(Client.View.STAFF);
+        Client.openView(Client.View.LOGIN);
+   
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-        model.setRowCount(0);
+        DefaultTableModel model = (DefaultTableModel) tbleTK.getModel();
+        model.setRowCount(0);  
            try {
-                Client.socketHandler.write("show-service-bill-by-day");
+                Client.socketHandler.write("show-ticket-bill-by-day"+"="+ngayHienTai+"="+ngayHienTai );
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-       DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+             DefaultTableModel model = (DefaultTableModel) tbleTK.getModel();
         model.setRowCount(0);
+
+            int a = 0;
+            if(jComboBox8.getSelectedItem().equals("Quý 1")){
+                a = 1;
+            }else if(jComboBox8.getSelectedItem().equals("Quý 2")){
+                a = 2;
+            }else if(jComboBox8.getSelectedItem().equals("Quý 3")){
+                a = 3;
+            }else if(jComboBox8.getSelectedItem().equals("Quý 4")){
+                a = 4;
+            }
            try {
-                Client.socketHandler.write("show-service-bill-by-quarter");
+                Client.socketHandler.write("show-ticket-bill-by-quarter"+"="+a);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-       tongBill();
+      
+        if (tbBanVe.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(rootPane, "Xuất Hóa Đon Không Thành Công! \n Hãy Thêm Sản Phẩm Trước Khi Xuất Hóa Đơn!");
+        }else{
+        tongBill();
        addHDV();
        CTHDV();
-        bill_print();
+        bill_print(); 
+        }
+//         String lastChar;
+//         if (IDHDV.size() == 1) { // nếu chuỗi chỉ có 1 phần tử
+//            lastChar = IDHDV.get(0);
+//        } else { // nếu chuỗi có nhiều hơn 1 phần tử
+//            lastChar = IDHDV.get(IDHDV.size() - 1);
+//        }
+//       System.out.println(lastChar);
+//       
+//        for (int i = 0; i < IDHDV.size(); i++) {
+//            System.out.println("giang nam"+IDHDV.get(i));
+//        }
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+           
+        if (tbleTK.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(rootPane, "In Danh Sách Không Thành Công! \n Hãy Thống Kê Trước Khi In!");
+        }else{ 
+        tongThongKe();
+         TK_print();
+        }
+    }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+       bill1.setText("");
+        DefaultTableModel model = (DefaultTableModel) tbleTK.getModel();
+        model.setRowCount(0);
+        jTextField17.setText("");
+        jTextField18.setText("");
+
+        xoaTrang();
+    }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+ DefaultTableModel model = (DefaultTableModel) tbleTK.getModel();
+        model.setRowCount(0);     
+        
+        try {
+                Client.socketHandler.write("show-ticket-bill-by-day"+"="+jTextField17.getText()+"="+jTextField18.getText() );
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1197,6 +1340,7 @@ public class staffView extends javax.swing.JFrame {
     private javax.swing.JTextField MNV;
     private javax.swing.JTextField TK;
     private javax.swing.JTextArea bill;
+    private javax.swing.JTextArea bill1;
     private javax.swing.JButton btnThemVe;
     private javax.swing.JComboBox<String> cbLoaiVe;
     private javax.swing.JTextField diachi;
@@ -1237,7 +1381,6 @@ public class staffView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel2;
@@ -1247,14 +1390,15 @@ public class staffView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane2;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField17;
     private javax.swing.JTextField jTextField18;
     private javax.swing.JComboBox<String> jcbKhuTTCN;
     private javax.swing.JTextField ngaysinh;
     private javax.swing.JTextField sodienthoai;
     private javax.swing.JTable tbBanVe;
+    private javax.swing.JTable tbleTK;
     private javax.swing.JTextField txtGiamGia;
     private javax.swing.JTextField txtNgayTao;
     private javax.swing.JTextField txtSoLuong;

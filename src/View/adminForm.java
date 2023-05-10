@@ -12,8 +12,12 @@ import Model.dichVu;
 import Model.hoaDon;
 import Model.khuVuc;
 import Model.troChoi;
+import java.awt.print.PrinterException;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -45,7 +49,15 @@ public class adminForm extends javax.swing.JFrame {
     /**
      * Creates new form adminForm
      */
-         
+        int logoutID;
+        int sumTK;
+      // lấy ngày 
+    Date currentDate = new Date();
+    int day = currentDate.getDate();
+    int month = currentDate.getMonth() + 1; // Tháng bắt đầu từ 0, nên cộng thêm 1 để lấy tháng thực tế
+    int year = currentDate.getYear() + 1900; // Năm được tính từ 1900, nên cộng thêm 1900 để lấy năm thực tế
+    String ngayHienTai = (year+"-"+month+"-"+day);
+   
     // get game
     public void sendgetgame(){
         
@@ -88,6 +100,14 @@ public class adminForm extends javax.swing.JFrame {
             }
          
     }
+     public void sendGetGame(){
+          try {
+                Client.socketHandler.write("show-game");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+         
+    }
     
     public void xoaTrangNV(){
          txtHTNV.setText("");
@@ -123,6 +143,7 @@ public class adminForm extends javax.swing.JFrame {
         sendGetKhu();
         sendGetDichVu();
         sendGetVe();
+        sendGetGame();
         
      
         
@@ -130,6 +151,9 @@ public class adminForm extends javax.swing.JFrame {
         txtIDKhu.setEditable(false);
         txtIDVe.setEditable(false);
         txtIDDV.setEditable(false);
+        
+        
+        
         
         
     }
@@ -192,6 +216,7 @@ public class adminForm extends javax.swing.JFrame {
                 cv = "Kĩ Thuật Viên";
             }
            MNV.setText(Integer.toString(TT.getIdUser()));
+           
            HT.setText(TT.getHoTen());
            ngaysinh.setText(TT.getNgaySinh());
            sodienthoai.setText(TT.getSDT());
@@ -213,7 +238,8 @@ public class adminForm extends javax.swing.JFrame {
                 } 
             } 
                TK.setText(TT.getUsername());
-               MK.setText(TT.getPassword());           
+               MK.setText(TT.getPassword());  
+               logoutID = TT.getIdUser();
         }
             
             i++;
@@ -260,6 +286,55 @@ public class adminForm extends javax.swing.JFrame {
         }
 
     }
+   public void TK_print(){
+ 
+        try {
+            bill1.setText("\t       Khu Vui Chơi TNIT \n");
+            bill1.setText(bill1.getText() + "\t       Tên NV:"+ HT.getText()+"  ("+ MNV.getText()+")"+"\n");
+            bill1.setText(bill1.getText() + "\t       Điện Thoại:+84 3689999999, \n");
+            bill1.setText(bill1.getText() + "\t       Ngày Lập:"+ ngayHienTai+ "\n" );
+            
+            bill1.setText(bill1.getText() + "---------------------------------------------------------------------------------------------\n");
+            bill1.setText(bill1.getText() + "\tID       IDNhân Viên\t Ngày Tạo\tThành Tiền \n");
+            bill1.setText(bill1.getText() +"---------------------------------------------------------------------------------------------\n");
+            
+            DefaultTableModel df = (DefaultTableModel) ThongKe.getModel();
+            for (int i = 0; i < ThongKe.getRowCount(); i++) {
+                
+                String name = df.getValueAt(i, 0).toString();
+                String qt = df.getValueAt(i, 1).toString();
+                String prct = df.getValueAt(i, 2).toString();
+                String prc = df.getValueAt(i, 3).toString();
+                
+                
+                bill1.setText(bill1.getText()+"\t"+name+"\t"+qt+"\t"+prct+"\t"+prc+" \n");
+                
+            }
+            bill1.setText(bill1.getText() + "---------------------------------------------------------------------------------------------\n");
+            bill1.setText(bill1.getText()+"\t Tổng Tiền: "+ sumTK +".000 \n" );
+            bill1.setText(bill1.getText() + "===================================================\n");
+            bill1.setText(bill1.getText() +"\tThanks For Your Business...!"+"\n");
+            bill1.setText(bill1.getText() + "---------------------------------------------------------------------------------------------\n");
+            bill1.setText(bill1.getText() +"\tSoftware by TNIT"+"\n");
+            
+            
+            bill1.print();
+            
+        } catch (PrinterException ex) {
+            
+            Logger.getLogger(staffView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+ 
+ }
+  private void tongThongKe(){
+         sumTK=0;
+    // Tính tổng các giá trị trong cột thứ i
+    int i = 3; // thay bằng số thứ tự của cột bạn muốn tính tổng
+    int numRows = ThongKe.getRowCount();
+    for (int row = 0; row < numRows; row++) {
+        sumTK += Integer.parseInt(ThongKe.getValueAt(row, i).toString());
+    }
+     }
     
 
       public void setDataToTableVe(List<Ve> ve){
@@ -408,6 +483,8 @@ public class adminForm extends javax.swing.JFrame {
         jButton10 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
         jButton14 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        bill1 = new javax.swing.JTextArea();
         jPanel9 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
@@ -768,25 +845,22 @@ public class adminForm extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(43, 43, 43)
+                .addGap(17, 17, 17)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel40, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                    .addComponent(jLabel30, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel40, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BLHD, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox8, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(26, 26, 26)
-                        .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(26, 26, 26)
-                        .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(89, 89, 89))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(20, 20, 20)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BLHD, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox8, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -811,6 +885,11 @@ public class adminForm extends javax.swing.JFrame {
         );
 
         jButton2.setText("Thống Kê");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton9.setText("Thống Kê Ngày");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
@@ -827,8 +906,22 @@ public class adminForm extends javax.swing.JFrame {
         });
 
         jButton13.setText("In Danh Sách");
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
 
         jButton14.setText("Thoát");
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
+
+        bill1.setColumns(20);
+        bill1.setRows(5);
+        jScrollPane3.setViewportView(bill1);
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -837,16 +930,18 @@ public class adminForm extends javax.swing.JFrame {
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel12Layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
+                        .addContainerGap()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(93, 93, 93)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel12Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 977, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -857,21 +952,27 @@ public class adminForm extends javax.swing.JFrame {
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel12Layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel12Layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(26, 26, 26)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 369, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40))
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel12Layout.createSequentialGroup()
+                                .addGap(70, 70, 70)
+                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel12Layout.createSequentialGroup()
+                                .addGap(39, 39, 39)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -2224,7 +2325,13 @@ public class adminForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        // TODO add your handling code here:
+        try {
+            Client.socketHandler.write("offline"+"="+logoutID);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        }
+        Client.closeView(Client.View.ADMIN);
+        Client.openView(Client.View.LOGIN);
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void btnThemVe1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVe1ActionPerformed
@@ -2445,13 +2552,13 @@ public class adminForm extends javax.swing.JFrame {
        String a =  (String) BLHD.getSelectedItem();
        if(a.equals("Hóa Đơn Vé")){
            try {
-                Client.socketHandler.write("show-ticket-bill-by-day");
+                Client.socketHandler.write("show-ticket-bill-by-day"+"="+ngayHienTai+"="+ngayHienTai);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
        }else if(a.equals("Hóa Đơn Dịch Vụ")){
            try {
-                Client.socketHandler.write("show-service-bill-by-day");
+                Client.socketHandler.write("show-service-bill-by-day"+"="+ngayHienTai+"="+ngayHienTai);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -2460,24 +2567,67 @@ public class adminForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-         DefaultTableModel model = (DefaultTableModel) ThongKe.getModel();
+        DefaultTableModel model = (DefaultTableModel) ThongKe.getModel();
         model.setRowCount(0);
        String a =  (String) BLHD.getSelectedItem();
+       int b = 0;
+            if(jComboBox8.getSelectedItem().equals("Quý 1")){
+                b = 1;
+            }else if(jComboBox8.getSelectedItem().equals("Quý 2")){
+                b = 2;
+            }else if(jComboBox8.getSelectedItem().equals("Quý 3")){
+                b = 3;
+            }else if(jComboBox8.getSelectedItem().equals("Quý 4")){
+                b = 4;
+            }
        if(a.equals("Hóa Đơn Vé")){
            try {
-                Client.socketHandler.write("show-ticket-bill-by-quarter");
+                Client.socketHandler.write("show-ticket-bill-by-quarter"+"="+b);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
        }else if(a.equals("Hóa Đơn Dịch Vụ")){
            try {
-                Client.socketHandler.write("show-service-bill-by-quarter");
+                Client.socketHandler.write("show-service-bill-by-quarter"+"="+b);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
        }
         
     }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        DefaultTableModel model = (DefaultTableModel) ThongKe.getModel();
+        model.setRowCount(0);
+        if (ThongKe.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(rootPane, "In Danh Sách Không Thành Công! \n Hãy Thống Kê Trước Khi In!");
+        }else{ 
+        tongThongKe();
+         TK_print();
+        }
+    }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+        bill1.setText("");
+        DefaultTableModel model = (DefaultTableModel) ThongKe.getModel();
+        model.setRowCount(0);
+        jTextField17.setText("");
+        jTextField18.setText("");
+    }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        DefaultTableModel model = (DefaultTableModel) ThongKe.getModel();
+        model.setRowCount(0);
+        if (!jTextField17.getText().isEmpty()&&!jTextField17.getText().isEmpty()) { // kiểm tra xem giá trị có tồn tại hay không
+           
+        
+        try {
+                Client.socketHandler.write("show-ticket-bill-by-day"+"="+jTextField17.getText()+"="+jTextField18.getText() );
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2521,6 +2671,7 @@ public class adminForm extends javax.swing.JFrame {
     private javax.swing.JTextField MNV;
     private javax.swing.JTextField TK;
     private javax.swing.JTable ThongKe;
+    private javax.swing.JTextArea bill1;
     private javax.swing.JButton btnThemVe;
     private javax.swing.JButton btnThemVe1;
     private javax.swing.JButton btnThemVe4;
@@ -2625,6 +2776,7 @@ public class adminForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
