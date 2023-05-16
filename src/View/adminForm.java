@@ -50,6 +50,7 @@ public class adminForm extends javax.swing.JFrame {
      * Creates new form adminForm
      */
         int logoutID;
+        String IDNV;
         int sumTK;
       // lấy ngày 
     Date currentDate = new Date();
@@ -129,6 +130,7 @@ public class adminForm extends javax.swing.JFrame {
     public void xoaTrangDichVu(){
     txtDV.setText("");
     txtGiaDV.setText("");
+    txtIDDV.setText("");
 }
     public void xoaTrangVe(){
         txtGiaVe.setText("");
@@ -151,6 +153,7 @@ public class adminForm extends javax.swing.JFrame {
         txtIDKhu.setEditable(false);
         txtIDVe.setEditable(false);
         txtIDDV.setEditable(false);
+        MNV.setEditable(false);
         
         
         
@@ -287,9 +290,11 @@ public class adminForm extends javax.swing.JFrame {
 
     }
    public void TK_print(){
- 
+       Object quy = jComboBox8.getSelectedItem();
+       Object loai = BLHD.getSelectedItem();
         try {
             bill1.setText("\t       Khu Vui Chơi TNIT \n");
+            bill1.setText(bill1.getText() + "\t       Thống kê:"+ loai+"  ("+ quy+")"+"\n");
             bill1.setText(bill1.getText() + "\t       Tên NV:"+ HT.getText()+"  ("+ MNV.getText()+")"+"\n");
             bill1.setText(bill1.getText() + "\t       Điện Thoại:+84 3689999999, \n");
             bill1.setText(bill1.getText() + "\t       Ngày Lập:"+ ngayHienTai+ "\n" );
@@ -363,7 +368,7 @@ public class adminForm extends javax.swing.JFrame {
         for(hoaDon hd : listHoaDonStatics){ 
             tableModel.addRow(new Object[]{
                hd.getIdHDV(),
-               hd.getIdHDV(),
+               hd.getIdNV(),
                hd.getNgayLap(),
                hd.getTongTien()
             });
@@ -712,7 +717,7 @@ public class adminForm extends javax.swing.JFrame {
             }
         });
 
-        jButton15.setText("Thoát");
+        jButton15.setText("Trở Lại");
         jButton15.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton15ActionPerformed(evt);
@@ -801,7 +806,7 @@ public class adminForm extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "IDNV", "Ngày Lập", "Thành Tiền"
             }
         ));
         jScrollPane2.setViewportView(ThongKe);
@@ -1123,20 +1128,11 @@ public class adminForm extends javax.swing.JFrame {
         jPanel14Layout.setHorizontalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
-                .addContainerGap(65, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(jPanel14Layout.createSequentialGroup()
-                            .addComponent(jLabel34, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                            .addGap(26, 26, 26)
-                            .addComponent(MK, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel14Layout.createSequentialGroup()
-                            .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(26, 26, 26)
-                            .addComponent(TK, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel14Layout.createSequentialGroup()
                         .addComponent(jLabel22)
-                        .addGap(24, 24, 24)
+                        .addGap(140, 140, 140)
                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(jPanel14Layout.createSequentialGroup()
                                 .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1167,9 +1163,18 @@ public class adminForm extends javax.swing.JFrame {
                                 .addGap(26, 26, 26)
                                 .addComponent(ngaysinh, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel14Layout.createSequentialGroup()
-                                .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(26, 26, 26)
-                                .addComponent(jcbKhuTTCN, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jcbKhuTTCN, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
+                            .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(MK, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
+                            .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(39, 39, 39)
+                            .addComponent(TK, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
@@ -1232,7 +1237,7 @@ public class adminForm extends javax.swing.JFrame {
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1028, Short.MAX_VALUE)
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2181,6 +2186,7 @@ public class adminForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton25ActionPerformed
 
     private void jButton30ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton30ActionPerformed
+        jButton18.setEnabled(true);
         sendGetUser();
         xoaTrangNV();
 
@@ -2203,7 +2209,45 @@ public class adminForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
-        // TODO add your handling code here:
+            int updateus =tableUser.getSelectedRow();
+        if (tableUser.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(rootPane, " Hãy thêm thông tin vào bảng trước khi sửa!");
+        } else if (updateus == -1) {
+            JOptionPane.showMessageDialog(rootPane, " Hãy chọn 1 dòng trong bảng trước khi sửa!");
+        } else {
+              IDNV = tableUser.getValueAt(updateus , 0).toString();
+            String updatename = tableUser.getValueAt(updateus , 1).toString();
+            String updatechucvu = tableUser.getValueAt(updateus , 2).toString();
+            String updatekhuvuc = tableUser.getValueAt(updateus , 2).toString();
+             txtHTNV.setText(updatename);
+             System.out.println("duýa"+ updatename);
+            if(updatechucvu.equals("0")){
+                updatechucvu = "ADMIN";
+            }else if(updatechucvu.equals("1")){
+                updatechucvu = "Nhân Viên Bán Vé";
+            }else if(updatechucvu.equals("2")){
+                updatechucvu = "Nhân Viên Dịch Vụ";
+            }else if(updatechucvu.equals("3")){
+                updatechucvu = "Kĩ Thuật Viên";
+            }
+            
+            for(int i = 0; i< jcbCVNV.getItemCount();i++){
+                if(updatechucvu.equals(String.valueOf(jcbCVNV.getItemAt(i)))){
+                    jcbCVNV.setSelectedIndex(i);
+                }
+            }
+            
+            for(int i = 0; i< jcbKVNV.getItemCount();i++){
+                if(updatekhuvuc.equals(String.valueOf(jcbKVNV.getItemAt(i)))){
+                    jcbKVNV.setSelectedIndex(i);
+                }
+            }
+       
+           
+           
+        }
+         jButton18.setEnabled(false);
+        
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -2217,7 +2261,35 @@ public class adminForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
-        // TODO add your handling code here:
+       if( txtHTNV.equals("")){
+            JOptionPane.showMessageDialog(rootPane, " Hãy thêm đầy đủ thông tin!");
+        }else{
+         String updateName=  txtHTNV.getText();
+         Object  updatechucvu = jcbCVNV.getSelectedItem();
+         
+       if(updatechucvu.equals("ADMIN")){
+                updatechucvu = "0";
+            }else if(updatechucvu.equals("Nhân Viên Bán Vé")){
+                updatechucvu = "1";
+            }else if(updatechucvu.equals("Nhân Viên Dịch Vụ")){
+                updatechucvu = "2";
+            }else if(updatechucvu.equals("Kĩ Thuật Viên")){
+                updatechucvu = "3";
+            }
+         Object  updatekhuvuc = jcbKVNV.getSelectedItem();
+           
+           
+           
+            try {
+                Client.socketHandler.write("edit-staff-info"+"="+IDNV+"="+updatechucvu+"="+updatekhuvuc);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
+           
+        }
+         jButton18.setEnabled(true);
+         
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -2258,7 +2330,7 @@ public class adminForm extends javax.swing.JFrame {
             sendGetKhu();
             xoaTrangKhu();
         }
-
+          btnThemVe4.setEnabled(true);
     }//GEN-LAST:event_jButton24ActionPerformed
 
     private void btnThemVe5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVe5ActionPerformed
@@ -2308,7 +2380,7 @@ public class adminForm extends javax.swing.JFrame {
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
         int updatekv = tbleKhuVuc.getSelectedRow();
-        if (tbTroChoi3.getRowCount() == 0) {
+        if (tbleKhuVuc.getRowCount() == 0) {
             JOptionPane.showMessageDialog(rootPane, " Hãy thêm thông tin vào bảng trước khi sửa!");
         } else if (updatekv == -1) {
             JOptionPane.showMessageDialog(rootPane, " Hãy chọn 1 dòng trong bảng trước khi sửa!");
@@ -2322,6 +2394,7 @@ public class adminForm extends javax.swing.JFrame {
             txtGMC.setText(updateGMC);
             txtGDC.setText(updateGDC);
         }
+         btnThemVe4.setEnabled(false);
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
@@ -2360,6 +2433,7 @@ public class adminForm extends javax.swing.JFrame {
             sendGetVe();
             xoaTrangVe();
         }
+         btnThemVe.setEnabled(true);
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void btnThemVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVeActionPerformed
@@ -2374,6 +2448,7 @@ public class adminForm extends javax.swing.JFrame {
             }
             xoaTrangVe();
             sendGetVe();
+            
             
         }
     }//GEN-LAST:event_btnThemVeActionPerformed
@@ -2411,6 +2486,7 @@ public class adminForm extends javax.swing.JFrame {
            txtLoaiVe.setText(updateLoaiVe);   
            txtGiaVe.setText(updateGia);
         }
+        btnThemVe.setEnabled(false);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void btnThemVe8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVe8ActionPerformed
@@ -2461,6 +2537,7 @@ public class adminForm extends javax.swing.JFrame {
           
            txtGiaDV.setText(updateGia);
         }
+         btnThemVe9.setEnabled(false);
     }//GEN-LAST:event_jButton31ActionPerformed
 
     private void jButton32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton32ActionPerformed
@@ -2496,11 +2573,13 @@ public class adminForm extends javax.swing.JFrame {
 
             sendGetDichVu();
             xoaTrangDichVu();
+             btnThemVe9.setEnabled(true);
         }
     }//GEN-LAST:event_jButton33ActionPerformed
 
     private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
-        // TODO add your handling code here:
+         xoaTrangDichVu();
+        sendGetDichVu();
     }//GEN-LAST:event_jButton34ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
@@ -2597,8 +2676,7 @@ public class adminForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        DefaultTableModel model = (DefaultTableModel) ThongKe.getModel();
-        model.setRowCount(0);
+
         if (ThongKe.getRowCount() == 0) {
             JOptionPane.showMessageDialog(rootPane, "In Danh Sách Không Thành Công! \n Hãy Thống Kê Trước Khi In!");
         }else{ 

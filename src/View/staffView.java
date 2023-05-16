@@ -1140,6 +1140,8 @@ public class staffView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void btnThemVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVeActionPerformed
+     
+    
         String loaiVe = (String) cbLoaiVe.getSelectedItem();
        
         try {

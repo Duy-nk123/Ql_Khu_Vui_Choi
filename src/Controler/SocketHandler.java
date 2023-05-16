@@ -181,11 +181,11 @@ public class SocketHandler implements Runnable {
                 if (messageSplit[0].equals("login-success")) {
                     idTTCN = Integer.parseInt(messageSplit[1]);
                  
-                try {
-                Client.socketHandler.write("show-user-info"+ "="+  idTTCN);
-                } catch (IOException ex) {
-                throw new RuntimeException(ex);
-                }
+                    try {
+                    Client.socketHandler.write("show-user-info"+ "="+  idTTCN);
+                    } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                    }
                     Client.taikhoan = getUserFromString(1,messageSplit);
                   //   Client. = getUserFromString(1,messageSplit);
                     Client.Login.loginSuccess();
@@ -249,6 +249,15 @@ public class SocketHandler implements Runnable {
                        
                     }
                 }
+                
+                   // update user
+                if(messageSplit[0].equals("update-staff-success")){
+                    if(Client.AdminForm!=null){
+                        JOptionPane.showMessageDialog(Client.AdminForm, "Cập Nhật Thông Tin Nhân Viên Thành Công!");
+                       
+                    }
+                }       
+                
                 // xoa user
                 if(messageSplit[0].equals("del-user-success")){
                     if(Client.AdminForm!=null){
