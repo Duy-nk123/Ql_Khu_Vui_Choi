@@ -27,162 +27,178 @@ import javax.swing.table.DefaultTableModel;
  * @author Admin
  */
 public class adminForm extends javax.swing.JFrame {
-        private List<troChoi> listTroChoiStatics;
-        private List<TaiKhoan> listTaiKhoanStatics;
-        private List<User> listTTStatics;
-        private List<khuVuc> listKhuVucStatics;
-        private List<dichVu> listDichVuStatics;
-        private List<Ve> listVeStatics;
-        private List<hoaDon> listHoaDonStatics;
-        private DefaultTableModel tableModel;
-        
-        // nhan vien
-        // get thong tin nhan vien
-        String txtHtNv; String txtTkNv ;String txtMkNv ; String jcbKvNv ;String jcbCvNv ;
-        // get khu vuc
-        String idKhu;String NameKhu;String GMC ;String GDC ;
-        // get dich vu
-        String dv; String giaDV; String khuDV; String idDV;
-        // get ve
-        String idVe; String loaiVe; String giaVe;
-        
+
+    private List<troChoi> listTroChoiStatics;
+    private List<TaiKhoan> listTaiKhoanStatics;
+    private List<User> listTTStatics;
+    private List<khuVuc> listKhuVucStatics;
+    private List<dichVu> listDichVuStatics;
+    private List<Ve> listVeStatics;
+    private List<hoaDon> listHoaDonStatics;
+    private DefaultTableModel tableModel;
+
+    // nhan vien
+    // get thong tin nhan vien
+    String txtHtNv;
+    String txtTkNv;
+    String txtMkNv;
+    String jcbKvNv;
+    String jcbCvNv;
+    // get khu vuc
+    String idKhu;
+    String NameKhu;
+    String GMC;
+    String GDC;
+    // get dich vu
+    String dv;
+    String giaDV;
+    String khuDV;
+    String idDV;
+    // get ve
+    String idVe;
+    String loaiVe;
+    String giaVe;
+
     /**
      * Creates new form adminForm
      */
-        int logoutID;
-        String IDNV;
-        int sumTK;
-      // lấy ngày 
+    int logoutID;
+    String IDNV;
+    int sumTK;
+    // lấy ngày 
     Date currentDate = new Date();
     int day = currentDate.getDate();
     int month = currentDate.getMonth() + 1; // Tháng bắt đầu từ 0, nên cộng thêm 1 để lấy tháng thực tế
     int year = currentDate.getYear() + 1900; // Năm được tính từ 1900, nên cộng thêm 1900 để lấy năm thực tế
-    String ngayHienTai = (year+"-"+month+"-"+day);
-   
+    String ngayHienTai = (year + "-" + month + "-" + day);
+
     // get game
-    public void sendgetgame(){
-        
+    public void sendgetgame() {
+
         // get game
-         try {
-                Client.socketHandler.write("show-game");
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+        try {
+            Client.socketHandler.write("show-game");
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
-    
-    public void sendGetUser(){
-         try {
-                Client.socketHandler.write("show-user");
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+
+    public void sendGetUser() {
+        try {
+            Client.socketHandler.write("show-user");
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
-    
-    public void sendGetKhu(){
-         try {
-                Client.socketHandler.write("show-arena");
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+
+    public void sendGetKhu() {
+        try {
+            Client.socketHandler.write("show-arena");
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
-    public void sendGetDichVu(){
-         try {
-                Client.socketHandler.write("show-service");
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-         
-    }
-    public void sendGetVe(){
-         try {
-                Client.socketHandler.write("show-ticket");
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-         
-    }
-     public void sendGetGame(){
-          try {
-                Client.socketHandler.write("show-game");
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-         
-    }
-    
-    public void xoaTrangNV(){
-         txtHTNV.setText("");
-         txtTKNV.setText("");
-         txtMKNV.setText("");
+
+    public void sendGetDichVu() {
+        try {
+            Client.socketHandler.write("show-service");
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
 
     }
-    public void xoaTrangGame(){
+
+    public void sendGetVe() {
+        try {
+            Client.socketHandler.write("show-ticket");
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+
+    }
+
+    public void sendGetGame() {
+        try {
+            Client.socketHandler.write("show-game");
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+
+    }
+
+    public void xoaTrangNV() {
+        txtHTNV.setText("");
+        txtTKNV.setText("");
+        txtMKNV.setText("");
+
+    }
+
+    public void xoaTrangGame() {
         txtIDGame.setText("");
         txtNameGame.setText("");
     }
-    
-    public void xoaTrangKhu(){
+
+    public void xoaTrangKhu() {
         txtIDKhu.setText("");
         txtTenKhu.setText("");
         txtGMC.setText("");
         txtGDC.setText("");
     }
-    public void xoaTrangDichVu(){
-    txtDV.setText("");
-    txtGiaDV.setText("");
-    txtIDDV.setText("");
-}
-    public void xoaTrangVe(){
+
+    public void xoaTrangDichVu() {
+        txtDV.setText("");
+        txtGiaDV.setText("");
+        txtIDDV.setText("");
+    }
+
+    public void xoaTrangVe() {
         txtGiaVe.setText("");
         txtLoaiVe.setText("");
         txtIDVe.setText("");
     }
+
     public adminForm() {
         initComponents();
-        
+
         sendgetgame();
         sendGetUser();
         sendGetKhu();
         sendGetDichVu();
         sendGetVe();
         sendGetGame();
-        
-     
-        
+
         txtIDGame.setEditable(false);// không chỉnh sửa được txt 
         txtIDKhu.setEditable(false);
         txtIDVe.setEditable(false);
         txtIDDV.setEditable(false);
         MNV.setEditable(false);
-        
-        
-        
-        
-        
+
     }
-    
-    public void BTNFalse(){
+
+    public void BTNFalse() {
         btnThemVe6.setEnabled(false);
-      
+
     }
-    public void BTNTrue(){
-         btnThemVe6.setEnabled(true);
+
+    public void BTNTrue() {
+        btnThemVe6.setEnabled(true);
         jButton26.setEnabled(true);
     }
-    public void setTableUser(List<TaiKhoan> user){ 
-         tableModel = (DefaultTableModel) tableUser.getModel(); 
+
+    public void setTableUser(List<TaiKhoan> user) {
+        tableModel = (DefaultTableModel) tableUser.getModel();
         this.listTaiKhoanStatics = user;
         tableModel.setRowCount(0);
-        int i=0;
-        for(TaiKhoan Users : listTaiKhoanStatics){ 
-            String cv= null;
-            if(Users.getRole()==0){
+        int i = 0;
+        for (TaiKhoan Users : listTaiKhoanStatics) {
+            String cv = null;
+            if (Users.getRole() == 0) {
                 cv = " ADMIN";
-            }else if(Users.getRole()==1){
+            } else if (Users.getRole() == 1) {
                 cv = "Nhân Viên Bán Vé";
-            }else if(Users.getRole()==2){
+            } else if (Users.getRole() == 2) {
                 cv = "Nhân Viên Dịch Vụ";
-            }else if(Users.getRole()==3){
+            } else if (Users.getRole() == 3) {
                 cv = "Kĩ Thuật Viên";
             }
             tableModel.addRow(new Object[]{
@@ -194,66 +210,67 @@ public class adminForm extends javax.swing.JFrame {
             });
             i++;
         }
-        
+
     }
-    public void setTTCN(List<User> TTCN){ 
+
+    public void setTTCN(List<User> TTCN) {
         this.listTTStatics = TTCN;
-        int i=0;
-        String cv= null;
-        int kv ;
-        for(User TT : listTTStatics){ 
+        int i = 0;
+        String cv = null;
+        int kv;
+        for (User TT : listTTStatics) {
             String gioitinh = Integer.toString(TT.getGioiTinh());
-            if(gioitinh.equals("1")){
+            if (gioitinh.equals("1")) {
                 gioitinh = "Nam";
-            }else{
-                 gioitinh = "Nữ";
+            } else {
+                gioitinh = "Nữ";
             }
-            
-            if(TT.getRole()==0){
+
+            if (TT.getRole() == 0) {
                 cv = " ADMIN";
-            }else if(TT.getRole()==1){
+            } else if (TT.getRole() == 1) {
                 cv = "Nhân Viên Bán Vé";
-            }else if(TT.getRole()==2){
+            } else if (TT.getRole() == 2) {
                 cv = "Nhân Viên Dịch Vụ";
-            }else if(TT.getRole()==3){
+            } else if (TT.getRole() == 3) {
                 cv = "Kĩ Thuật Viên";
             }
-           MNV.setText(Integer.toString(TT.getIdUser()));
-           
-           HT.setText(TT.getHoTen());
-           ngaysinh.setText(TT.getNgaySinh());
-           sodienthoai.setText(TT.getSDT());
-           diachi.setText(TT.getDiaChi());
-             for( i = 0; i< jCbGioiTinh.getItemCount();i++){
-                if(gioitinh.equals(String.valueOf(jCbGioiTinh.getItemAt(i)))){
-                   jCbGioiTinh.setSelectedIndex(i);
+            MNV.setText(Integer.toString(TT.getIdUser()));
+
+            HT.setText(TT.getHoTen());
+            ngaysinh.setText(TT.getNgaySinh());
+            sodienthoai.setText(TT.getSDT());
+            diachi.setText(TT.getDiaChi());
+            for (i = 0; i < jCbGioiTinh.getItemCount(); i++) {
+                if (gioitinh.equals(String.valueOf(jCbGioiTinh.getItemAt(i)))) {
+                    jCbGioiTinh.setSelectedIndex(i);
                 }
             }
-               for(i = 0; i< jCbChucVu.getItemCount();i++){
-                if(cv.equals(String.valueOf(jCbChucVu.getItemAt(i)))){
+            for (i = 0; i < jCbChucVu.getItemCount(); i++) {
+                if (cv.equals(String.valueOf(jCbChucVu.getItemAt(i)))) {
                     jCbChucVu.setSelectedIndex(i);
                 }
             }
-               kv = TT.getIdKhu();
-               for( i = 0; i< jcbKhuTTCN.getItemCount();i++){
-                if(Integer.toString(kv).equals(String.valueOf(jcbKhuTTCN.getItemAt(i)))){
+            kv = TT.getIdKhu();
+            for (i = 0; i < jcbKhuTTCN.getItemCount(); i++) {
+                if (Integer.toString(kv).equals(String.valueOf(jcbKhuTTCN.getItemAt(i)))) {
                     jcbKhuTTCN.setSelectedIndex(i);
-                } 
-            } 
-               TK.setText(TT.getUsername());
-               MK.setText(TT.getPassword());  
-               logoutID = TT.getIdUser();
+                }
+            }
+            TK.setText(TT.getUsername());
+            MK.setText(TT.getPassword());
+            logoutID = TT.getIdUser();
         }
-            
-            i++;
-        }
-    
-    public void setTableDichVu(List<dichVu> service){ 
-         tableModel = (DefaultTableModel) tbdichvu.getModel(); 
+
+        i++;
+    }
+
+    public void setTableDichVu(List<dichVu> service) {
+        tableModel = (DefaultTableModel) tbdichvu.getModel();
         this.listDichVuStatics = service;
         tableModel.setRowCount(0);
-        int i=0;
-        for(dichVu services : listDichVuStatics){ 
+        int i = 0;
+        for (dichVu services : listDichVuStatics) {
             tableModel.addRow(new Object[]{
                 services.getIdDichvu(),
                 services.getTenDV(),
@@ -262,93 +279,92 @@ public class adminForm extends javax.swing.JFrame {
             });
             i++;
         }
-        
+
     }
-    
-  public void setDataToTableTroChoi(List<troChoi> game){
-            String TTGame;
-       
-         tableModel = (DefaultTableModel) tbTroChoi3.getModel(); 
+
+    public void setDataToTableTroChoi(List<troChoi> game) {
+        String TTGame;
+
+        tableModel = (DefaultTableModel) tbTroChoi3.getModel();
         this.listTroChoiStatics = game;
-         tableModel.setRowCount(0);
-           int i=0;
-            for(troChoi games : listTroChoiStatics){ 
-             int ttGame = games.getStatus();
-             if(ttGame == 0){
-                TTGame = "Tốt" ;
-             }else{
-                  TTGame = "Bảo Trì" ;
-             }
+        tableModel.setRowCount(0);
+        int i = 0;
+        for (troChoi games : listTroChoiStatics) {
+            int ttGame = games.getStatus();
+            if (ttGame == 0) {
+                TTGame = "Tốt";
+            } else {
+                TTGame = "Bảo Trì";
+            }
             tableModel.addRow(new Object[]{
                 games.getIdGame(),
                 games.getIdKhu(),
-               games.getGameName(),
+                games.getGameName(),
                 TTGame
             });
             i++;
         }
 
     }
-   public void TK_print(){
-       Object quy = jComboBox8.getSelectedItem();
-       Object loai = BLHD.getSelectedItem();
+
+    public void TK_print() {
+        Object quy = jComboBox8.getSelectedItem();
+        Object loai = BLHD.getSelectedItem();
         try {
             bill1.setText("\t       Khu Vui Chơi TNIT \n");
-            bill1.setText(bill1.getText() + "\t       Thống kê:"+ loai+"  ("+ quy+")"+"\n");
-            bill1.setText(bill1.getText() + "\t       Tên NV:"+ HT.getText()+"  ("+ MNV.getText()+")"+"\n");
+            bill1.setText(bill1.getText() + "\t       Thống kê:" + loai + "  (" + quy + ")" + "\n");
+            bill1.setText(bill1.getText() + "\t       Tên NV:" + HT.getText() + "  (" + MNV.getText() + ")" + "\n");
             bill1.setText(bill1.getText() + "\t       Điện Thoại:+84 3689999999, \n");
-            bill1.setText(bill1.getText() + "\t       Ngày Lập:"+ ngayHienTai+ "\n" );
-            
+            bill1.setText(bill1.getText() + "\t       Ngày Lập:" + ngayHienTai + "\n");
+
             bill1.setText(bill1.getText() + "---------------------------------------------------------------------------------------------\n");
             bill1.setText(bill1.getText() + "\tID       IDNhân Viên\t Ngày Tạo\tThành Tiền \n");
-            bill1.setText(bill1.getText() +"---------------------------------------------------------------------------------------------\n");
-            
+            bill1.setText(bill1.getText() + "---------------------------------------------------------------------------------------------\n");
+
             DefaultTableModel df = (DefaultTableModel) ThongKe.getModel();
             for (int i = 0; i < ThongKe.getRowCount(); i++) {
-                
+
                 String name = df.getValueAt(i, 0).toString();
                 String qt = df.getValueAt(i, 1).toString();
                 String prct = df.getValueAt(i, 2).toString();
                 String prc = df.getValueAt(i, 3).toString();
-                
-                
-                bill1.setText(bill1.getText()+"\t"+name+"\t"+qt+"\t"+prct+"\t"+prc+" \n");
-                
+
+                bill1.setText(bill1.getText() + "\t" + name + "\t" + qt + "\t" + prct + "\t" + prc + " \n");
+
             }
             bill1.setText(bill1.getText() + "---------------------------------------------------------------------------------------------\n");
-            bill1.setText(bill1.getText()+"\t Tổng Tiền: "+ sumTK +".000 \n" );
+            bill1.setText(bill1.getText() + "\t Tổng Tiền: " + sumTK + ".000 \n");
             bill1.setText(bill1.getText() + "===================================================\n");
-            bill1.setText(bill1.getText() +"\tThanks For Your Business...!"+"\n");
+            bill1.setText(bill1.getText() + "\tThanks For Your Business...!" + "\n");
             bill1.setText(bill1.getText() + "---------------------------------------------------------------------------------------------\n");
-            bill1.setText(bill1.getText() +"\tSoftware by TNIT"+"\n");
-            
-            
+            bill1.setText(bill1.getText() + "\tSoftware by TNIT" + "\n");
+
             bill1.print();
-            
+
         } catch (PrinterException ex) {
-            
+
             Logger.getLogger(staffView.class.getName()).log(Level.SEVERE, null, ex);
         }
- 
- }
-  private void tongThongKe(){
-         sumTK=0;
-    // Tính tổng các giá trị trong cột thứ i
-    int i = 3; // thay bằng số thứ tự của cột bạn muốn tính tổng
-    int numRows = ThongKe.getRowCount();
-    for (int row = 0; row < numRows; row++) {
-        sumTK += Integer.parseInt(ThongKe.getValueAt(row, i).toString());
-    }
-     }
-    
 
-      public void setDataToTableVe(List<Ve> ve){
-        tableModel = (DefaultTableModel) tbBanVe.getModel(); 
+    }
+
+    private void tongThongKe() {
+        sumTK = 0;
+        // Tính tổng các giá trị trong cột thứ i
+        int i = 3; // thay bằng số thứ tự của cột bạn muốn tính tổng
+        int numRows = ThongKe.getRowCount();
+        for (int row = 0; row < numRows; row++) {
+            sumTK += Integer.parseInt(ThongKe.getValueAt(row, i).toString());
+        }
+    }
+
+    public void setDataToTableVe(List<Ve> ve) {
+        tableModel = (DefaultTableModel) tbBanVe.getModel();
         this.listVeStatics = ve;
         tableModel.setRowCount(0);
-        
-        int i=0;
-        for(Ve ves : listVeStatics){ 
+
+        int i = 0;
+        for (Ve ves : listVeStatics) {
             tableModel.addRow(new Object[]{
                 ves.getIdVe(),
                 ves.getLoaiVe(),
@@ -357,37 +373,37 @@ public class adminForm extends javax.swing.JFrame {
             i++;
         }
     }
-       public void setDataToTableThongKe(List<hoaDon> hoadon){
-           
-       
-         tableModel = (DefaultTableModel) ThongKe.getModel(); 
+
+    public void setDataToTableThongKe(List<hoaDon> hoadon) {
+
+        tableModel = (DefaultTableModel) ThongKe.getModel();
         this.listHoaDonStatics = hoadon;
         tableModel.setRowCount(0);
-        
-        int i=0;
-        for(hoaDon hd : listHoaDonStatics){ 
+
+        int i = 0;
+        for (hoaDon hd : listHoaDonStatics) {
             tableModel.addRow(new Object[]{
-               hd.getIdHDV(),
-               hd.getIdNV(),
-               hd.getNgayLap(),
-               hd.getTongTien()
+                hd.getIdHDV(),
+                hd.getIdNV(),
+                hd.getNgayLap(),
+                hd.getTongTien()
             });
             i++;
         }
     }
-    
-    public void setJcbKhuVuc(List<khuVuc> arena){
-        
-            jCbKhuGame.removeAllItems();
-            jcbKVNV.removeAllItems();
-            jcbKhuDV.removeAllItems();
-            jcbKhuTTCN.removeAllItems();
-        tableModel = (DefaultTableModel) tbleKhuVuc.getModel(); 
-          tableModel.setRowCount(0);
-   
+
+    public void setJcbKhuVuc(List<khuVuc> arena) {
+
+        jCbKhuGame.removeAllItems();
+        jcbKVNV.removeAllItems();
+        jcbKhuDV.removeAllItems();
+        jcbKhuTTCN.removeAllItems();
+        tableModel = (DefaultTableModel) tbleKhuVuc.getModel();
+        tableModel.setRowCount(0);
+
         this.listKhuVucStatics = arena;
-        int i=0;
-        for(khuVuc arenas : listKhuVucStatics){ 
+        int i = 0;
+        for (khuVuc arenas : listKhuVucStatics) {
             jCbKhuGame.addItem(String.valueOf(arenas.getIdKhu()));
             jcbKVNV.addItem(String.valueOf(arenas.getIdKhu()));
             jcbKhuDV.addItem(String.valueOf(arenas.getIdKhu()));
@@ -398,50 +414,50 @@ public class adminForm extends javax.swing.JFrame {
                 arenas.getGioMoCua(),
                 arenas.getGioDongCua()
             });
-            
+
             i++;
         }
-      
+
     }
-    public void getKhuVuc(){
+
+    public void getKhuVuc() {
         idKhu = txtIDKhu.getText();
         NameKhu = txtTenKhu.getText();
-         GMC = txtGMC.getText();
-         GDC = txtGDC.getText(); 
+        GMC = txtGMC.getText();
+        GDC = txtGDC.getText();
     }
-    
-    public void getDichVu(){
-     giaDV =   txtGiaDV.getText();
-     dv =   txtDV.getText();
-     idDV = txtIDDV.getText();
-      khuDV =  jcbKhuDV.getSelectedItem().toString();
+
+    public void getDichVu() {
+        giaDV = txtGiaDV.getText();
+        dv = txtDV.getText();
+        idDV = txtIDDV.getText();
+        khuDV = jcbKhuDV.getSelectedItem().toString();
     }
-  
-    
-    public void getVe(){
-       idVe = txtIDVe.getText();
-       loaiVe = txtLoaiVe.getText();
-       giaVe = txtGiaVe.getText();
+
+    public void getVe() {
+        idVe = txtIDVe.getText();
+        loaiVe = txtLoaiVe.getText();
+        giaVe = txtGiaVe.getText();
     }
-  
-    public void getTTNhanVien(){
+
+    public void getTTNhanVien() {
         txtHtNv = txtHTNV.getText();
         txtTkNv = txtTKNV.getText();
         txtMkNv = txtMKNV.getText();
         jcbKvNv = jcbKVNV.getSelectedItem().toString();
-        
 
         jcbCvNv = jcbCVNV.getSelectedItem().toString();
-        if(jcbCvNv.equals("ADMIN")){
+        if (jcbCvNv.equals("ADMIN")) {
             jcbCvNv = "0";
-        }else if(jcbCvNv.equals("Nhân Viên Bán Vé")){
+        } else if (jcbCvNv.equals("Nhân Viên Bán Vé")) {
             jcbCvNv = "1";
-        }else if(jcbCvNv.equals("Nhân Viên Dịch Vụ")){
+        } else if (jcbCvNv.equals("Nhân Viên Dịch Vụ")) {
             jcbCvNv = "2";
-        }else if(jcbCvNv.equals("Kĩ Thuật Viên")){
-           jcbCvNv= "3";
+        } else if (jcbCvNv.equals("Kĩ Thuật Viên")) {
+            jcbCvNv = "3";
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -2082,7 +2098,7 @@ public class adminForm extends javax.swing.JFrame {
     private void btnThemVe7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVe7ActionPerformed
         String findNameGame = txtNameGame.getText();
         try {
-            Client.socketHandler.write("find-game"+ "="+ findNameGame);
+            Client.socketHandler.write("find-game" + "=" + findNameGame);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
@@ -2095,14 +2111,14 @@ public class adminForm extends javax.swing.JFrame {
         String kvGame = jCbKhuGame.getSelectedItem().toString();
         String tinhtrangGame = jCbTinhTrang.getSelectedItem().toString();
         int ttGame;
-        if(tinhtrangGame.equals("Tốt")){
+        if (tinhtrangGame.equals("Tốt")) {
             ttGame = 0;
-        }else{
+        } else {
             ttGame = 0;
         }
 
         try {
-            Client.socketHandler.write("update-game"+"="+idGame+"="+kvGame+"="+nameGame+"="+ttGame);
+            Client.socketHandler.write("update-game" + "=" + idGame + "=" + kvGame + "=" + nameGame + "=" + ttGame);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
@@ -2114,18 +2130,18 @@ public class adminForm extends javax.swing.JFrame {
         String nameGame = txtNameGame.getText();
         if (nameGame.equals("")) {
             JOptionPane.showMessageDialog(rootPane, " Hãy thêm Tên Trò Chơi!");
-        }else{
+        } else {
             String kvGame = jCbKhuGame.getSelectedItem().toString();
             String tinhtrangGame = jCbTinhTrang.getSelectedItem().toString();
             int ttGame;
-            if(tinhtrangGame.equals("Tốt")){
+            if (tinhtrangGame.equals("Tốt")) {
                 ttGame = 0;
-            }else{
+            } else {
                 ttGame = 0;
             }
 
             try {
-                Client.socketHandler.write("add-game"+"="+kvGame+"="+ nameGame+"="+ttGame);
+                Client.socketHandler.write("add-game" + "=" + kvGame + "=" + nameGame + "=" + ttGame);
                 JOptionPane.showMessageDialog(rootPane, " Thêm Thành Công!");
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
@@ -2145,7 +2161,7 @@ public class adminForm extends javax.swing.JFrame {
         } else {
             String updateGameId = tbTroChoi3.getValueAt(deletegame, 0).toString();
             try {
-                Client.socketHandler.write("delete-game"+"="+updateGameId);
+                Client.socketHandler.write("delete-game" + "=" + updateGameId);
 
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
@@ -2168,15 +2184,15 @@ public class adminForm extends javax.swing.JFrame {
             String updateKVGame = tbTroChoi3.getValueAt(updategame, 1).toString();
             String updateTTGame = tbTroChoi3.getValueAt(updategame, 3).toString();
             txtNameGame.setText(updateGameName);
-            for(int i = 0; i< jCbKhuGame.getItemCount();i++){
-                if(updateKVGame.equals(String.valueOf(jCbKhuGame.getItemAt(i)))){
+            for (int i = 0; i < jCbKhuGame.getItemCount(); i++) {
+                if (updateKVGame.equals(String.valueOf(jCbKhuGame.getItemAt(i)))) {
                     jCbKhuGame.setSelectedIndex(i);
                 }
             }
             txtIDGame.setText(updateGameId);
 
-            for(int i = 0; i< jCbTinhTrang.getItemCount();i++){
-                if(updateTTGame.equals(String.valueOf(jCbTinhTrang.getItemAt(i)))){
+            for (int i = 0; i < jCbTinhTrang.getItemCount(); i++) {
+                if (updateTTGame.equals(String.valueOf(jCbTinhTrang.getItemAt(i)))) {
                     jCbTinhTrang.setSelectedIndex(i);
                 }
             }
@@ -2194,66 +2210,64 @@ public class adminForm extends javax.swing.JFrame {
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
         getTTNhanVien();
-        if(txtHtNv.equals("")|| txtTkNv.equals("")||txtMkNv.equals("") ){
+        if (txtHtNv.equals("") || txtTkNv.equals("") || txtMkNv.equals("")) {
             JOptionPane.showMessageDialog(this, "Hãy nhập đầy đủ các dữ liệu.");
-        }else{
-        try {
-            Client.socketHandler.write("register"+"="+txtTkNv+"="+ txtMkNv+"="+jcbCvNv+"="+txtHtNv+"="+jcbKvNv);
+        } else {
+            try {
+                Client.socketHandler.write("register" + "=" + txtTkNv + "=" + txtMkNv + "=" + jcbCvNv + "=" + txtHtNv + "=" + jcbKvNv);
 
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-        xoaTrangNV();
-        sendGetUser();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            xoaTrangNV();
+            sendGetUser();
         }
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
-            int updateus =tableUser.getSelectedRow();
+        int updateus = tableUser.getSelectedRow();
         if (tableUser.getRowCount() == 0) {
             JOptionPane.showMessageDialog(rootPane, " Hãy thêm thông tin vào bảng trước khi sửa!");
         } else if (updateus == -1) {
             JOptionPane.showMessageDialog(rootPane, " Hãy chọn 1 dòng trong bảng trước khi sửa!");
         } else {
-              IDNV = tableUser.getValueAt(updateus , 0).toString();
-            String updatename = tableUser.getValueAt(updateus , 1).toString();
-            String updatechucvu = tableUser.getValueAt(updateus , 2).toString();
-            String updatekhuvuc = tableUser.getValueAt(updateus , 2).toString();
-             txtHTNV.setText(updatename);
-             System.out.println("duýa"+ updatename);
-            if(updatechucvu.equals("0")){
+            IDNV = tableUser.getValueAt(updateus, 0).toString();
+            String updatename = tableUser.getValueAt(updateus, 1).toString();
+            String updatechucvu = tableUser.getValueAt(updateus, 2).toString();
+            String updatekhuvuc = tableUser.getValueAt(updateus, 2).toString();
+            txtHTNV.setText(updatename);
+            System.out.println("duýa" + updatename);
+            if (updatechucvu.equals("0")) {
                 updatechucvu = "ADMIN";
-            }else if(updatechucvu.equals("1")){
+            } else if (updatechucvu.equals("1")) {
                 updatechucvu = "Nhân Viên Bán Vé";
-            }else if(updatechucvu.equals("2")){
+            } else if (updatechucvu.equals("2")) {
                 updatechucvu = "Nhân Viên Dịch Vụ";
-            }else if(updatechucvu.equals("3")){
+            } else if (updatechucvu.equals("3")) {
                 updatechucvu = "Kĩ Thuật Viên";
             }
-            
-            for(int i = 0; i< jcbCVNV.getItemCount();i++){
-                if(updatechucvu.equals(String.valueOf(jcbCVNV.getItemAt(i)))){
+
+            for (int i = 0; i < jcbCVNV.getItemCount(); i++) {
+                if (updatechucvu.equals(String.valueOf(jcbCVNV.getItemAt(i)))) {
                     jcbCVNV.setSelectedIndex(i);
                 }
             }
-            
-            for(int i = 0; i< jcbKVNV.getItemCount();i++){
-                if(updatekhuvuc.equals(String.valueOf(jcbKVNV.getItemAt(i)))){
+
+            for (int i = 0; i < jcbKVNV.getItemCount(); i++) {
+                if (updatekhuvuc.equals(String.valueOf(jcbKVNV.getItemAt(i)))) {
                     jcbKVNV.setSelectedIndex(i);
                 }
             }
-       
-           
-           
+
         }
-         jButton18.setEnabled(false);
-        
+        jButton18.setEnabled(false);
+
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        String findNV= txtHTNV.getText();
+        String findNV = txtHTNV.getText();
         try {
-            Client.socketHandler.write("find-user"+ "="+ findNV);
+            Client.socketHandler.write("find-user" + "=" + findNV);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
@@ -2261,35 +2275,32 @@ public class adminForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
-       if( txtHTNV.equals("")){
+        if (txtHTNV.equals("")) {
             JOptionPane.showMessageDialog(rootPane, " Hãy thêm đầy đủ thông tin!");
-        }else{
-         String updateName=  txtHTNV.getText();
-         Object  updatechucvu = jcbCVNV.getSelectedItem();
-         
-       if(updatechucvu.equals("ADMIN")){
+        } else {
+            String updateName = txtHTNV.getText();
+            Object updatechucvu = jcbCVNV.getSelectedItem();
+
+            if (updatechucvu.equals("ADMIN")) {
                 updatechucvu = "0";
-            }else if(updatechucvu.equals("Nhân Viên Bán Vé")){
+            } else if (updatechucvu.equals("Nhân Viên Bán Vé")) {
                 updatechucvu = "1";
-            }else if(updatechucvu.equals("Nhân Viên Dịch Vụ")){
+            } else if (updatechucvu.equals("Nhân Viên Dịch Vụ")) {
                 updatechucvu = "2";
-            }else if(updatechucvu.equals("Kĩ Thuật Viên")){
+            } else if (updatechucvu.equals("Kĩ Thuật Viên")) {
                 updatechucvu = "3";
             }
-         Object  updatekhuvuc = jcbKVNV.getSelectedItem();
-           
-           
-           
+            Object updatekhuvuc = jcbKVNV.getSelectedItem();
+
             try {
-                Client.socketHandler.write("edit-staff-info"+"="+IDNV+"="+updatechucvu+"="+updatekhuvuc);
+                Client.socketHandler.write("edit-staff-info" + "=" + IDNV + "=" + updatechucvu + "=" + updatekhuvuc);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
 
-           
         }
-         jButton18.setEnabled(true);
-         
+        jButton18.setEnabled(true);
+
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -2301,7 +2312,7 @@ public class adminForm extends javax.swing.JFrame {
         } else {
             String updateUserId = tableUser.getValueAt(deleteUser, 0).toString();
             try {
-                Client.socketHandler.write("delete-user"+"="+updateUserId);
+                Client.socketHandler.write("delete-user" + "=" + updateUserId);
 
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
@@ -2318,11 +2329,11 @@ public class adminForm extends javax.swing.JFrame {
 
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
         getKhuVuc();
-        if( NameKhu.equals("")|| GMC.equals("")||GDC.equals("")){
+        if (NameKhu.equals("") || GMC.equals("") || GDC.equals("")) {
             JOptionPane.showMessageDialog(rootPane, " Hãy thêm đầy đủ thông tin!");
-        }else{
+        } else {
             try {
-                Client.socketHandler.write("update-arena"+"="+idKhu+"="+NameKhu+"="+GMC+"="+GDC);
+                Client.socketHandler.write("update-arena" + "=" + idKhu + "=" + NameKhu + "=" + GMC + "=" + GDC);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -2330,13 +2341,13 @@ public class adminForm extends javax.swing.JFrame {
             sendGetKhu();
             xoaTrangKhu();
         }
-          btnThemVe4.setEnabled(true);
+        btnThemVe4.setEnabled(true);
     }//GEN-LAST:event_jButton24ActionPerformed
 
     private void btnThemVe5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVe5ActionPerformed
         String findKV = txtTenKhu.getText();
         try {
-            Client.socketHandler.write("find-area"+ "="+ findKV);
+            Client.socketHandler.write("find-area" + "=" + findKV);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
@@ -2345,11 +2356,11 @@ public class adminForm extends javax.swing.JFrame {
     private void btnThemVe4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVe4ActionPerformed
 
         getKhuVuc();
-        if( NameKhu.equals("")|| GMC.equals("")||GDC.equals("")){
+        if (NameKhu.equals("") || GMC.equals("") || GDC.equals("")) {
             JOptionPane.showMessageDialog(rootPane, " Hãy thêm đầy đủ thông tin!");
-        }else{
+        } else {
             try {
-                Client.socketHandler.write("add-zone"+"="+NameKhu+"="+GMC+"="+GDC);
+                Client.socketHandler.write("add-zone" + "=" + NameKhu + "=" + GMC + "=" + GDC);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -2368,7 +2379,7 @@ public class adminForm extends javax.swing.JFrame {
         } else {
             String deleteKhuVuc = tbleKhuVuc.getValueAt(deleteKV, 0).toString();
             try {
-                Client.socketHandler.write("delete-area"+"="+deleteKhuVuc);
+                Client.socketHandler.write("delete-area" + "=" + deleteKhuVuc);
 
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
@@ -2385,21 +2396,21 @@ public class adminForm extends javax.swing.JFrame {
         } else if (updatekv == -1) {
             JOptionPane.showMessageDialog(rootPane, " Hãy chọn 1 dòng trong bảng trước khi sửa!");
         } else {
-            String updateid = tbleKhuVuc.getValueAt(updatekv , 0).toString();
-            String updatename = tbleKhuVuc.getValueAt(updatekv , 1).toString();
-            String updateGMC = tbleKhuVuc.getValueAt(updatekv , 2).toString();
-            String updateGDC = tbleKhuVuc.getValueAt(updatekv , 2).toString();
+            String updateid = tbleKhuVuc.getValueAt(updatekv, 0).toString();
+            String updatename = tbleKhuVuc.getValueAt(updatekv, 1).toString();
+            String updateGMC = tbleKhuVuc.getValueAt(updatekv, 2).toString();
+            String updateGDC = tbleKhuVuc.getValueAt(updatekv, 2).toString();
             txtIDKhu.setText(updateid);
             txtTenKhu.setText(updatename);
             txtGMC.setText(updateGMC);
             txtGDC.setText(updateGDC);
         }
-         btnThemVe4.setEnabled(false);
+        btnThemVe4.setEnabled(false);
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         try {
-            Client.socketHandler.write("offline"+"="+logoutID);
+            Client.socketHandler.write("offline" + "=" + logoutID);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         }
@@ -2408,10 +2419,10 @@ public class adminForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void btnThemVe1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVe1ActionPerformed
-       String findVe = txtLoaiVe.getText();
-        
+        String findVe = txtLoaiVe.getText();
+
         try {
-            Client.socketHandler.write("find-ticket"+ "="+ findVe);
+            Client.socketHandler.write("find-ticket" + "=" + findVe);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
@@ -2419,42 +2430,40 @@ public class adminForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnThemVe1ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-       getVe();
-         
-        if(  loaiVe.equals("")||giaVe.equals("")){
+        getVe();
+
+        if (loaiVe.equals("") || giaVe.equals("")) {
             JOptionPane.showMessageDialog(rootPane, " Hãy thêm đầy đủ thông tin!");
-        }else{
+        } else {
             try {
-                Client.socketHandler.write("update-ticket"+"="+idVe+"="+loaiVe+"="+giaVe);
+                Client.socketHandler.write("update-ticket" + "=" + idVe + "=" + loaiVe + "=" + giaVe);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
-
             sendGetVe();
             xoaTrangVe();
         }
-         btnThemVe.setEnabled(true);
+        btnThemVe.setEnabled(true);
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void btnThemVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVeActionPerformed
-         getVe();
-        if( loaiVe.equals("")|| giaVe.equals("")){
+        getVe();
+        if (loaiVe.equals("") || giaVe.equals("")) {
             JOptionPane.showMessageDialog(rootPane, " Hãy thêm đầy đủ thông tin!");
-        }else{
+        } else {
             try {
-                Client.socketHandler.write("add-ticket"+"="+loaiVe+"="+giaVe);
+                Client.socketHandler.write("add-ticket" + "=" + loaiVe + "=" + giaVe);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
             xoaTrangVe();
             sendGetVe();
-            
-            
+
         }
     }//GEN-LAST:event_btnThemVeActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        int deleteVe =tbBanVe.getSelectedRow();
+        int deleteVe = tbBanVe.getSelectedRow();
         if (tbBanVe.getRowCount() == 0) {
             JOptionPane.showMessageDialog(rootPane, " Hãy thêm thông tin vào bảng trước khi xóa!");
         } else if (deleteVe == -1) {
@@ -2462,7 +2471,7 @@ public class adminForm extends javax.swing.JFrame {
         } else {
             String deleteve = tbBanVe.getValueAt(deleteVe, 0).toString();
             try {
-                Client.socketHandler.write("delete-ticket"+"="+deleteve);
+                Client.socketHandler.write("delete-ticket" + "=" + deleteve);
 
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
@@ -2473,27 +2482,27 @@ public class adminForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-       int updateVe = tbBanVe.getSelectedRow();
+        int updateVe = tbBanVe.getSelectedRow();
         if (tbBanVe.getRowCount() == 0) {
             JOptionPane.showMessageDialog(rootPane, " Hãy thêm thông tin vào bảng trước khi sửa!");
-        } else if ( updateVe == -1) {
+        } else if (updateVe == -1) {
             JOptionPane.showMessageDialog(rootPane, " Hãy chọn 1 dòng trong bảng trước khi sửa!");
         } else {
-            String updateId = tbBanVe.getValueAt( updateVe , 0).toString();
-            String updateLoaiVe = tbBanVe.getValueAt( updateVe , 1).toString();
-            String updateGia = tbBanVe.getValueAt( updateVe , 2).toString();
+            String updateId = tbBanVe.getValueAt(updateVe, 0).toString();
+            String updateLoaiVe = tbBanVe.getValueAt(updateVe, 1).toString();
+            String updateGia = tbBanVe.getValueAt(updateVe, 2).toString();
             txtIDVe.setText(updateId);
-           txtLoaiVe.setText(updateLoaiVe);   
-           txtGiaVe.setText(updateGia);
+            txtLoaiVe.setText(updateLoaiVe);
+            txtGiaVe.setText(updateGia);
         }
         btnThemVe.setEnabled(false);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void btnThemVe8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVe8ActionPerformed
         String findDV = txtDV.getText();
-        
+
         try {
-            Client.socketHandler.write("find-service"+ "="+ findDV);
+            Client.socketHandler.write("find-service" + "=" + findDV);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
@@ -2501,43 +2510,43 @@ public class adminForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnThemVe8ActionPerformed
 
     private void btnThemVe9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVe9ActionPerformed
-         getDichVu();
-        if( dv.equals("")|| giaDV.equals("")){
+        getDichVu();
+        if (dv.equals("") || giaDV.equals("")) {
             JOptionPane.showMessageDialog(rootPane, " Hãy thêm đầy đủ thông tin!");
-        }else{
+        } else {
             try {
-                Client.socketHandler.write("add-sevice"+"="+dv+"="+giaDV+"="+khuDV);
+                Client.socketHandler.write("add-sevice" + "=" + dv + "=" + giaDV + "=" + khuDV);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
             xoaTrangDichVu();
             sendGetDichVu();
-            
+
         }
     }//GEN-LAST:event_btnThemVe9ActionPerformed
 
     private void jButton31ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton31ActionPerformed
-     int updatedv = tbdichvu.getSelectedRow();
+        int updatedv = tbdichvu.getSelectedRow();
         if (tbdichvu.getRowCount() == 0) {
             JOptionPane.showMessageDialog(rootPane, " Hãy thêm thông tin vào bảng trước khi sửa!");
         } else if (updatedv == -1) {
             JOptionPane.showMessageDialog(rootPane, " Hãy chọn 1 dòng trong bảng trước khi sửa!");
         } else {
-            String updateId = tbdichvu.getValueAt(updatedv , 0).toString();
-            String updateName = tbdichvu.getValueAt(updatedv , 1).toString();
-            String updateKv = tbdichvu.getValueAt(updatedv , 2).toString();
-            String updateGia = tbdichvu.getValueAt(updatedv , 2).toString();
+            String updateId = tbdichvu.getValueAt(updatedv, 0).toString();
+            String updateName = tbdichvu.getValueAt(updatedv, 1).toString();
+            String updateKv = tbdichvu.getValueAt(updatedv, 2).toString();
+            String updateGia = tbdichvu.getValueAt(updatedv, 2).toString();
             txtIDDV.setText(updateId);
-           txtDV.setText(updateName);
-           for(int i = 0; i< jcbKhuDV.getItemCount();i++){
-                if(updateKv.equals(String.valueOf(jcbKhuDV.getItemAt(i)))){
+            txtDV.setText(updateName);
+            for (int i = 0; i < jcbKhuDV.getItemCount(); i++) {
+                if (updateKv.equals(String.valueOf(jcbKhuDV.getItemAt(i)))) {
                     jcbKhuDV.setSelectedIndex(i);
                 }
             }
-          
-           txtGiaDV.setText(updateGia);
+
+            txtGiaDV.setText(updateGia);
         }
-         btnThemVe9.setEnabled(false);
+        btnThemVe9.setEnabled(false);
     }//GEN-LAST:event_jButton31ActionPerformed
 
     private void jButton32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton32ActionPerformed
@@ -2549,7 +2558,7 @@ public class adminForm extends javax.swing.JFrame {
         } else {
             String deleteDV = tbdichvu.getValueAt(deleteKV, 0).toString();
             try {
-                Client.socketHandler.write("delete-service"+"="+deleteDV);
+                Client.socketHandler.write("delete-service" + "=" + deleteDV);
 
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
@@ -2560,25 +2569,25 @@ public class adminForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton32ActionPerformed
 
     private void jButton33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton33ActionPerformed
- 
+
         getDichVu();
-        if( khuDV.equals("")|| dv.equals("")||giaDV.equals("")){
+        if (khuDV.equals("") || dv.equals("") || giaDV.equals("")) {
             JOptionPane.showMessageDialog(rootPane, " Hãy thêm đầy đủ thông tin!");
-        }else{
+        } else {
             try {
-                Client.socketHandler.write("update-service"+"="+idDV+"="+dv+"="+giaDV+"="+khuDV);
+                Client.socketHandler.write("update-service" + "=" + idDV + "=" + dv + "=" + giaDV + "=" + khuDV);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
 
             sendGetDichVu();
             xoaTrangDichVu();
-             btnThemVe9.setEnabled(true);
+            btnThemVe9.setEnabled(true);
         }
     }//GEN-LAST:event_jButton33ActionPerformed
 
     private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
-         xoaTrangDichVu();
+        xoaTrangDichVu();
         sendGetDichVu();
     }//GEN-LAST:event_jButton34ActionPerformed
 
@@ -2589,99 +2598,99 @@ public class adminForm extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         String GT = (String) jCbGioiTinh.getSelectedItem();
-        if(GT.equals("Nam")){
+        if (GT.equals("Nam")) {
             GT = "1";
-        }else{
+        } else {
             GT = "2";
         }
-        
+
         String CV = (String) jCbChucVu.getSelectedItem();
-            if(CV.equals("ADMIN")){
-           CV = "0";
-        }else if(CV.equals("Nhân Viên Bán Vé")){
+        if (CV.equals("ADMIN")) {
+            CV = "0";
+        } else if (CV.equals("Nhân Viên Bán Vé")) {
             CV = "1";
-        }else if(CV.equals("Nhân Viên Dịch Vụ")){
-           CV = "2";
-        }else if(CV.equals("Kĩ Thuật Viên")){
-           CV= "3";
+        } else if (CV.equals("Nhân Viên Dịch Vụ")) {
+            CV = "2";
+        } else if (CV.equals("Kĩ Thuật Viên")) {
+            CV = "3";
         }
-        
+
         try {
-                Client.socketHandler.write("update-staff-info"+ "="+
-                    MNV.getText()+ "="+
-                    TK.getText()+ "="+
-                    MK.getText() + "="+
-                    CV+ "="+
-                    HT.getText()+ "="+
-                    ngaysinh.getText()+ "="+
-                    sodienthoai.getText()+ "="+
-                   GT+ "="+
-                    diachi.getText()+ "="+"0"+"="+
-                    jcbKhuTTCN.getSelectedItem()  );
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        
-        
+            Client.socketHandler.write("update-staff-info" + "="
+                    + MNV.getText() + "="
+                    + TK.getText() + "="
+                    + MK.getText() + "="
+                    + CV + "="
+                    + HT.getText() + "="
+                    + ngaysinh.getText() + "="
+                    + sodienthoai.getText() + "="
+                    + GT + "="
+                    + diachi.getText() + "=" + "0" + "="
+                    + jcbKhuTTCN.getSelectedItem());
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         DefaultTableModel model = (DefaultTableModel) ThongKe.getModel();
         model.setRowCount(0);
-       String a =  (String) BLHD.getSelectedItem();
-       if(a.equals("Hóa Đơn Vé")){
-           try {
-                Client.socketHandler.write("show-ticket-bill-by-day"+"="+ngayHienTai+"="+ngayHienTai);
+        String a = (String) BLHD.getSelectedItem();
+        if (a.equals("Hóa Đơn Vé")) {
+            try {
+                Client.socketHandler.write("show-ticket-bill-by-day" + "=" + ngayHienTai + "=" + ngayHienTai);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
-       }else if(a.equals("Hóa Đơn Dịch Vụ")){
-           try {
-                Client.socketHandler.write("show-service-bill-by-day"+"="+ngayHienTai+"="+ngayHienTai);
+        } else if (a.equals("Hóa Đơn Dịch Vụ")) {
+            try {
+                Client.socketHandler.write("show-service-bill-by-day" + "=" + ngayHienTai + "=" + ngayHienTai);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
-       }
-        
+        }
+
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         DefaultTableModel model = (DefaultTableModel) ThongKe.getModel();
         model.setRowCount(0);
-       String a =  (String) BLHD.getSelectedItem();
-       int b = 0;
-            if(jComboBox8.getSelectedItem().equals("Quý 1")){
-                b = 1;
-            }else if(jComboBox8.getSelectedItem().equals("Quý 2")){
-                b = 2;
-            }else if(jComboBox8.getSelectedItem().equals("Quý 3")){
-                b = 3;
-            }else if(jComboBox8.getSelectedItem().equals("Quý 4")){
-                b = 4;
-            }
-       if(a.equals("Hóa Đơn Vé")){
-           try {
-                Client.socketHandler.write("show-ticket-bill-by-quarter"+"="+b);
+        String a = (String) BLHD.getSelectedItem();
+        int b = 0;
+        if (jComboBox8.getSelectedItem().equals("Quý 1")) {
+            b = 1;
+        } else if (jComboBox8.getSelectedItem().equals("Quý 2")) {
+            b = 2;
+        } else if (jComboBox8.getSelectedItem().equals("Quý 3")) {
+            b = 3;
+        } else if (jComboBox8.getSelectedItem().equals("Quý 4")) {
+            b = 4;
+        }
+        if (a.equals("Hóa Đơn Vé")) {
+            try {
+                Client.socketHandler.write("show-ticket-bill-by-quarter" + "=" + b);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
-       }else if(a.equals("Hóa Đơn Dịch Vụ")){
-           try {
-                Client.socketHandler.write("show-service-bill-by-quarter"+"="+b);
+        } else if (a.equals("Hóa Đơn Dịch Vụ")) {
+            try {
+                Client.socketHandler.write("show-service-bill-by-quarter" + "=" + b);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
-       }
-        
+        }
+
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
 
         if (ThongKe.getRowCount() == 0) {
             JOptionPane.showMessageDialog(rootPane, "In Danh Sách Không Thành Công! \n Hãy Thống Kê Trước Khi In!");
-        }else{ 
-        tongThongKe();
-         TK_print();
+        } else {
+            tongThongKe();
+            TK_print();
         }
     }//GEN-LAST:event_jButton13ActionPerformed
 
@@ -2696,11 +2705,10 @@ public class adminForm extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         DefaultTableModel model = (DefaultTableModel) ThongKe.getModel();
         model.setRowCount(0);
-        if (!jTextField17.getText().isEmpty()&&!jTextField17.getText().isEmpty()) { // kiểm tra xem giá trị có tồn tại hay không
-           
-        
-        try {
-                Client.socketHandler.write("show-ticket-bill-by-day"+"="+jTextField17.getText()+"="+jTextField18.getText() );
+        if (!jTextField17.getText().isEmpty() && !jTextField17.getText().isEmpty()) { // kiểm tra xem giá trị có tồn tại hay không
+
+            try {
+                Client.socketHandler.write("show-ticket-bill-by-day" + "=" + jTextField17.getText() + "=" + jTextField18.getText());
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -2733,7 +2741,7 @@ public class adminForm extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(adminForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-       
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

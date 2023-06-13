@@ -25,36 +25,34 @@ import javax.swing.table.DefaultTableModel;
  * @author My PC
  */
 public class serviceStaffView extends javax.swing.JFrame {
-    
-     private List<hoaDon> listHoaDonStatics;
-       private List<User> listTTStatics;
-        private List<khuVuc> listKhuVucStatics;
-         private List<dichVu> listDichVuStatics;
-          public ArrayList<String> IDHDDV = new ArrayList<>();
-    
-         
+
+    private List<hoaDon> listHoaDonStatics;
+    private List<User> listTTStatics;
+    private List<khuVuc> listKhuVucStatics;
+    private List<dichVu> listDichVuStatics;
+    public ArrayList<String> IDHDDV = new ArrayList<>();
+
     private DefaultTableModel tableModel;
     DefaultTableModel ve;
-    
-    
-   
+
     int logoutID;
     int sumTK;
     // giá dịch vụ ở add HDDV
     int giaDV;
     int IDDV;
-    int SW=1;
-      // tính ttổng hóa đơn
+    int SW = 1;
+    // tính ttổng hóa đơn
     int tongbill;
-    int sum ;
+    int sum;
     String giamGia;
-    
+
     // lấy ngày 
     Date currentDate = new Date();
     int day = currentDate.getDate();
     int month = currentDate.getMonth() + 1; // Tháng bắt đầu từ 0, nên cộng thêm 1 để lấy tháng thực tế
     int year = currentDate.getYear() + 1900; // Năm được tính từ 1900, nên cộng thêm 1900 để lấy năm thực tế
-    String ngayHienTai = (year+"-"+month+"-"+day);
+    String ngayHienTai = (year + "-" + month + "-" + day);
+
     /**
      * Creates new form serviceStaffView
      */
@@ -63,332 +61,327 @@ public class serviceStaffView extends javax.swing.JFrame {
         sendGetDichVu();
         jTextField15.setText("0");
         try {
-                Client.socketHandler.write("show-arena");
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            Client.socketHandler.write("show-arena");
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
-    public void sendGetDichVu(){
-         try {
-                Client.socketHandler.write("show-service");
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-         
+
+    public void sendGetDichVu() {
+        try {
+            Client.socketHandler.write("show-service");
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+
     }
-    public void setTTCN(List<User> TTCN){ 
+
+    public void setTTCN(List<User> TTCN) {
         this.listTTStatics = TTCN;
-        int i=0;
-        String cv= null;
-        int kv ;
-        for(User TT : listTTStatics){ 
+        int i = 0;
+        String cv = null;
+        int kv;
+        for (User TT : listTTStatics) {
             String gioitinh = Integer.toString(TT.getGioiTinh());
-            if(gioitinh.equals("1")){
+            if (gioitinh.equals("1")) {
                 gioitinh = "Nam";
-            }else{
-                 gioitinh = "Nữ";
+            } else {
+                gioitinh = "Nữ";
             }
-            
-            if(TT.getRole()==0){
+
+            if (TT.getRole() == 0) {
                 cv = " ADMIN";
-            }else if(TT.getRole()==1){
+            } else if (TT.getRole() == 1) {
                 cv = "Nhân Viên Bán Vé";
-            }else if(TT.getRole()==2){
+            } else if (TT.getRole() == 2) {
                 cv = "Nhân Viên Dịch Vụ";
-            }else if(TT.getRole()==3){
+            } else if (TT.getRole() == 3) {
                 cv = "Kĩ Thuật Viên";
             }
-           MNV.setText(Integer.toString(TT.getIdUser()));
-           HT.setText(TT.getHoTen());
-           ngaysinh.setText(TT.getNgaySinh());
-           sodienthoai.setText(TT.getSDT());
-           diachi.setText(TT.getDiaChi());
-             for( i = 0; i< jCbGioiTinh.getItemCount();i++){
-                if(gioitinh.equals(String.valueOf(jCbGioiTinh.getItemAt(i)))){
-                   jCbGioiTinh.setSelectedIndex(i);
+            MNV.setText(Integer.toString(TT.getIdUser()));
+            HT.setText(TT.getHoTen());
+            ngaysinh.setText(TT.getNgaySinh());
+            sodienthoai.setText(TT.getSDT());
+            diachi.setText(TT.getDiaChi());
+            for (i = 0; i < jCbGioiTinh.getItemCount(); i++) {
+                if (gioitinh.equals(String.valueOf(jCbGioiTinh.getItemAt(i)))) {
+                    jCbGioiTinh.setSelectedIndex(i);
                 }
             }
-               for(i = 0; i< jCbChucVu.getItemCount();i++){
-                if(cv.equals(String.valueOf(jCbChucVu.getItemAt(i)))){
+            for (i = 0; i < jCbChucVu.getItemCount(); i++) {
+                if (cv.equals(String.valueOf(jCbChucVu.getItemAt(i)))) {
                     jCbChucVu.setSelectedIndex(i);
                 }
             }
-               kv = TT.getIdKhu();
-               for( i = 0; i< jcbKhuTTCN.getItemCount();i++){
-                if(Integer.toString(kv).equals(String.valueOf(jcbKhuTTCN.getItemAt(i)))){
+            kv = TT.getIdKhu();
+            for (i = 0; i < jcbKhuTTCN.getItemCount(); i++) {
+                if (Integer.toString(kv).equals(String.valueOf(jcbKhuTTCN.getItemAt(i)))) {
                     jcbKhuTTCN.setSelectedIndex(i);
-                } 
-            } 
-               TK.setText(TT.getUsername());
-               MK.setText(TT.getPassword());   
-               logoutID = TT.getIdUser();
+                }
+            }
+            TK.setText(TT.getUsername());
+            MK.setText(TT.getPassword());
+            logoutID = TT.getIdUser();
         }
-            
-            i++;
-        }
-    public void setTableDichVu(List<dichVu> service){ 
-        
+
+        i++;
+    }
+
+    public void setTableDichVu(List<dichVu> service) {
+
         this.listDichVuStatics = service;
-        
-        int i=0;
-        for(dichVu services : listDichVuStatics){ 
+
+        int i = 0;
+        for (dichVu services : listDichVuStatics) {
             giaDV = services.getGiaDV();
             IDDV = services.getIdDichvu();
             i++;
         }
-        String a =   jTextField13.getText();
-       if(a!= null && !a.equals("")){
-           bill_print();
-           add();
-           
-       }else{
+        String a = jTextField13.getText();
+        if (a != null && !a.equals("")) {
+            bill_print();
+            add();
+
+        } else {
 //           addCTDV();
-       }
+        }
     }
-    public void setJcbDV(List<dichVu> ve){
-            jComboBox4.removeAllItems();
+
+    public void setJcbDV(List<dichVu> ve) {
+        jComboBox4.removeAllItems();
         this.listDichVuStatics = ve;
-        int i=0;
-        for(dichVu Ves : listDichVuStatics){  
-            jComboBox4.addItem(String.valueOf(Ves.getTenDV()));  
+        int i = 0;
+        for (dichVu Ves : listDichVuStatics) {
+            jComboBox4.addItem(String.valueOf(Ves.getTenDV()));
             i++;
         }
     }
-     public void setJcbKhuVuc(List<khuVuc> arena){
-        
-            
-            jcbKhuTTCN.removeAllItems();
-      
+
+    public void setJcbKhuVuc(List<khuVuc> arena) {
+
+        jcbKhuTTCN.removeAllItems();
+
         this.listKhuVucStatics = arena;
-        int i=0;
-        for(khuVuc arenas : listKhuVucStatics){ 
-            
+        int i = 0;
+        for (khuVuc arenas : listKhuVucStatics) {
+
             jcbKhuTTCN.addItem(String.valueOf(arenas.getIdKhu()));
-           
-            
+
             i++;
         }
-      
+
     }
-        public void bill_print(){
-           
-          String loaiVe = (String) jComboBox4.getSelectedItem();
-             DefaultTableModel df = (DefaultTableModel) jTable1.getModel();
-             int i = 0;
-            while (i < Integer.parseInt(jTextField13.getText())) {
-                
-                bill.setText(bill.getText() +"\tKhu Vui Chơi TNIT \n");
-                bill.setText(bill.getText() + "\t Tên NV:"+ HT.getText()+"  ("+ MNV.getText()+")"+"\n");
-                bill.setText(bill.getText() + "\t Điện Thoại:+84 3689999999, \n");
-                bill.setText(bill.getText() + "\t Ngày Lập:"+ ngayHienTai+ "\n" );
-                bill.setText(bill.getText() + "------------------------------------------------------------------------------\n");
-                bill.setText(bill.getText() + "\tDịch Vụ: " + loaiVe+"\n");
-                bill.setText(bill.getText() +"------------------------------------------------------------------------------\n");
-                bill.setText(bill.getText()+"\tGiá: "+giaDV+" \n");
-                bill.setText(bill.getText() + "------------------------------------------------------------------------------\n");
-                bill.setText(bill.getText() + "==========================================\n");
-                bill.setText(bill.getText() +"\tThanks For Your Business...!"+"\n");
-                bill.setText(bill.getText() + "------------------------------------------------------------------------------\n");
-                bill.setText(bill.getText() +"\tSoftware by TNIT"+"\n");
-                bill.setText(bill.getText() +"\t"+"\n");
-                bill.setText(bill.getText() +"\t"+"\n");
-         i++;
-            }
-            
+
+    public void bill_print() {
+
+        String loaiVe = (String) jComboBox4.getSelectedItem();
+        DefaultTableModel df = (DefaultTableModel) jTable1.getModel();
+        int i = 0;
+        while (i < Integer.parseInt(jTextField13.getText())) {
+
+            bill.setText(bill.getText() + "\tKhu Vui Chơi TNIT \n");
+            bill.setText(bill.getText() + "\t Tên NV:" + HT.getText() + "  (" + MNV.getText() + ")" + "\n");
+            bill.setText(bill.getText() + "\t Điện Thoại:+84 3689999999, \n");
+            bill.setText(bill.getText() + "\t Ngày Lập:" + ngayHienTai + "\n");
+            bill.setText(bill.getText() + "------------------------------------------------------------------------------\n");
+            bill.setText(bill.getText() + "\tDịch Vụ: " + loaiVe + "\n");
+            bill.setText(bill.getText() + "------------------------------------------------------------------------------\n");
+            bill.setText(bill.getText() + "\tGiá: " + giaDV + " \n");
+            bill.setText(bill.getText() + "------------------------------------------------------------------------------\n");
+            bill.setText(bill.getText() + "==========================================\n");
+            bill.setText(bill.getText() + "\tThanks For Your Business...!" + "\n");
+            bill.setText(bill.getText() + "------------------------------------------------------------------------------\n");
+            bill.setText(bill.getText() + "\tSoftware by TNIT" + "\n");
+            bill.setText(bill.getText() + "\t" + "\n");
+            bill.setText(bill.getText() + "\t" + "\n");
+            i++;
+        }
+
 //           
- }
-      public void TK_print(){
+    }
+
+    public void TK_print() {
         try {
             bill1.setText("\t       Khu Vui Chơi TNIT \n");
-            bill1.setText(bill1.getText() + "\t       Tên NV:"+ HT.getText()+"  ("+ MNV.getText()+")"+"\n");
+            bill1.setText(bill1.getText() + "\t       Tên NV:" + HT.getText() + "  (" + MNV.getText() + ")" + "\n");
             bill1.setText(bill1.getText() + "\t       Điện Thoại:+84 3689999999, \n");
-            bill1.setText(bill1.getText() + "\t       Ngày Lập:"+ ngayHienTai+ "\n" );
-            
+            bill1.setText(bill1.getText() + "\t       Ngày Lập:" + ngayHienTai + "\n");
+
             bill1.setText(bill1.getText() + "---------------------------------------------------------------------------------------------\n");
             bill1.setText(bill1.getText() + "\tID       IDNhân Viên\t Ngày Tạo\tThành Tiền \n");
-            bill1.setText(bill1.getText() +"---------------------------------------------------------------------------------------------\n");
-            
+            bill1.setText(bill1.getText() + "---------------------------------------------------------------------------------------------\n");
+
             DefaultTableModel df = (DefaultTableModel) tbleTK.getModel();
             for (int i = 0; i < tbleTK.getRowCount(); i++) {
-                
+
                 String name = df.getValueAt(i, 0).toString();
                 String qt = df.getValueAt(i, 1).toString();
                 String prct = df.getValueAt(i, 2).toString();
                 String prc = df.getValueAt(i, 3).toString();
-                
-                
-                bill1.setText(bill1.getText()+"\t"+name+"\t"+qt+"\t"+prct+"\t"+prc+" \n");
-                
+
+                bill1.setText(bill1.getText() + "\t" + name + "\t" + qt + "\t" + prct + "\t" + prc + " \n");
+
             }
             bill1.setText(bill1.getText() + "---------------------------------------------------------------------------------------------\n");
-            bill1.setText(bill1.getText()+"\t Tổng Tiền: "+ sumTK +".000 \n" );
+            bill1.setText(bill1.getText() + "\t Tổng Tiền: " + sumTK + ".000 \n");
             bill1.setText(bill1.getText() + "===================================================\n");
-            bill1.setText(bill1.getText() +"\tThanks For Your Business...!"+"\n");
+            bill1.setText(bill1.getText() + "\tThanks For Your Business...!" + "\n");
             bill1.setText(bill1.getText() + "---------------------------------------------------------------------------------------------\n");
-            bill1.setText(bill1.getText() +"\tSoftware by TNIT"+"\n");
-            
-            
+            bill1.setText(bill1.getText() + "\tSoftware by TNIT" + "\n");
+
             bill1.print();
-            
+
         } catch (PrinterException ex) {
-            
+
             Logger.getLogger(staffView.class.getName()).log(Level.SEVERE, null, ex);
         }
- 
- }
-         private void tongBill(){
-        tongbill=0;
-        sum=0;
-        giamGia = jTextField15.getText();
-   
-    // Tính tổng các giá trị trong cột thứ i
-    int i = 3; // thay bằng số thứ tự của cột bạn muốn tính tổng
-    int numRows = jTable1.getRowCount();
-   
-    for (int row = 0; row < numRows; row++) {
-        sum += Integer.parseInt(jTable1.getValueAt(row, i).toString());
-    }
-    tongbill += sum - (sum * Integer.parseInt(giamGia) / 100);  
 
     }
-       private void Xoa(){
-            bill.setText("");
+
+    private void tongBill() {
+        tongbill = 0;
+        sum = 0;
+        giamGia = jTextField15.getText();
+
+        // Tính tổng các giá trị trong cột thứ i
+        int i = 3; // thay bằng số thứ tự của cột bạn muốn tính tổng
+        int numRows = jTable1.getRowCount();
+
+        for (int row = 0; row < numRows; row++) {
+            sum += Integer.parseInt(jTable1.getValueAt(row, i).toString());
+        }
+        tongbill += sum - (sum * Integer.parseInt(giamGia) / 100);
+
+    }
+
+    private void Xoa() {
+        bill.setText("");
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
-       }
-       public void bill(){
-           
- 
-       
-            bill.setText(bill.getText()+"\tKhu Vui Chơi TNIT \n");
-            bill.setText(bill.getText() + "\t Tên NV:"+ HT.getText()+"  ("+ MNV.getText()+")"+"\n");
-            bill.setText(bill.getText() + "\t Điện Thoại:+84 3689999999, \n");
-            bill.setText(bill.getText() + "\t Ngày Lập:"+ ngayHienTai+ "\n" );
-            
-            bill.setText(bill.getText() + "------------------------------------------------------------------------------\n");
-            bill.setText(bill.getText() + "\tLoại Vé \tSố Lượng \tThành Tiền \n");
-            bill.setText(bill.getText() +"------------------------------------------------------------------------------\n");
-            
-            DefaultTableModel df = (DefaultTableModel) jTable1.getModel();
-            for (int i = 0; i < jTable1.getRowCount(); i++) {
-                
-                String name = df.getValueAt(i, 1).toString();
-                String qt = df.getValueAt(i, 2).toString();
-                String prc = df.getValueAt(i, 3).toString();
-                
-                bill.setText(bill.getText()+"\t"+ name+"\t"+qt+"\t"+prc+" \n");
-                
-            }
-            bill.setText(bill.getText() + "------------------------------------------------------------------------------\n");
-            bill.setText(bill.getText()+"\t Tổng Tiền: "+ sum +".000 \n" );
-            bill.setText(bill.getText()+"\t Giảm Giá: "+ giamGia +"% \n" );
-            bill.setText(bill.getText()+"\t Tổng Tiền thanh toán: "+ tongbill+".000\n");
-            bill.setText(bill.getText() + "==========================================\n");
-            bill.setText(bill.getText() +"\tThanks For Your Business...!"+"\n");
-            bill.setText(bill.getText() + "------------------------------------------------------------------------------\n");
-            bill.setText(bill.getText() +"\tSoftware by TNIT"+"\n");
-            
-            
-      
-            jTextField15.setText("0");
-            
-        
- 
- }
-      public void addHDDV(){
-          sumTK=0;
+    }
+
+    public void bill() {
+
+        bill.setText(bill.getText() + "\tKhu Vui Chơi TNIT \n");
+        bill.setText(bill.getText() + "\t Tên NV:" + HT.getText() + "  (" + MNV.getText() + ")" + "\n");
+        bill.setText(bill.getText() + "\t Điện Thoại:+84 3689999999, \n");
+        bill.setText(bill.getText() + "\t Ngày Lập:" + ngayHienTai + "\n");
+
+        bill.setText(bill.getText() + "------------------------------------------------------------------------------\n");
+        bill.setText(bill.getText() + "\tLoại Vé \tSố Lượng \tThành Tiền \n");
+        bill.setText(bill.getText() + "------------------------------------------------------------------------------\n");
+
+        DefaultTableModel df = (DefaultTableModel) jTable1.getModel();
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
+
+            String name = df.getValueAt(i, 1).toString();
+            String qt = df.getValueAt(i, 2).toString();
+            String prc = df.getValueAt(i, 3).toString();
+
+            bill.setText(bill.getText() + "\t" + name + "\t" + qt + "\t" + prc + " \n");
+
+        }
+        bill.setText(bill.getText() + "------------------------------------------------------------------------------\n");
+        bill.setText(bill.getText() + "\t Tổng Tiền: " + sum + ".000 \n");
+        bill.setText(bill.getText() + "\t Giảm Giá: " + giamGia + "% \n");
+        bill.setText(bill.getText() + "\t Tổng Tiền thanh toán: " + tongbill + ".000\n");
+        bill.setText(bill.getText() + "==========================================\n");
+        bill.setText(bill.getText() + "\tThanks For Your Business...!" + "\n");
+        bill.setText(bill.getText() + "------------------------------------------------------------------------------\n");
+        bill.setText(bill.getText() + "\tSoftware by TNIT" + "\n");
+
+        jTextField15.setText("0");
+
+    }
+
+    public void addHDDV() {
+        sumTK = 0;
         // Tính tổng các giá trị trong cột thứ i
         int i = 3; // thay bằng số thứ tự của cột bạn muốn tính tổng
         int numRows = jTable1.getRowCount();
         for (int row = 0; row < numRows; row++) {
             sumTK += Integer.parseInt(jTable1.getValueAt(row, i).toString());
         }
-          
-          try {
-                Client.socketHandler.write("add-service-bill"+"="+ngayHienTai+"="+logoutID+"="+sumTK);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-      }
-      public void addCTHDDV(){
-        
-          String lastChar;
-         if (IDHDDV.size() == 1) { // nếu chuỗi chỉ có 1 phần tử
+
+        try {
+            Client.socketHandler.write("add-service-bill" + "=" + ngayHienTai + "=" + logoutID + "=" + sumTK);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public void addCTHDDV() {
+
+        String lastChar;
+        if (IDHDDV.size() == 1) { // nếu chuỗi chỉ có 1 phần tử
             lastChar = IDHDDV.get(0);
         } else { // nếu chuỗi có nhiều hơn 1 phần tử
             lastChar = IDHDDV.get(IDHDDV.size() - 1);
         }
-        
-         DefaultTableModel df = (DefaultTableModel) jTable1.getModel();
-         for (int i = 0; i < jTable1.getRowCount(); i++) {
-                
-                String id = df.getValueAt(i, 0).toString();
-                String sl = df.getValueAt(i, 2).toString();
-                String prc = df.getValueAt(i, 3).toString();
-                
-            try {   
-                Client.socketHandler.write("add-detail-service"+ "="+ lastChar+ "="+ id+ "="+sl+ "="+prc);
-             
-            
+
+        DefaultTableModel df = (DefaultTableModel) jTable1.getModel();
+        for (int i = 0; i < jTable1.getRowCount(); i++) {
+
+            String id = df.getValueAt(i, 0).toString();
+            String sl = df.getValueAt(i, 2).toString();
+            String prc = df.getValueAt(i, 3).toString();
+
+            try {
+                Client.socketHandler.write("add-detail-service" + "=" + lastChar + "=" + id + "=" + sl + "=" + prc);
+
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
-        
-                
-            }
-       
-        
-      }
-        private void tongThongKe(){
-         sumTK=0;
+
+        }
+
+    }
+
+    private void tongThongKe() {
+        sumTK = 0;
         // Tính tổng các giá trị trong cột thứ i
         int i = 3; // thay bằng số thứ tự của cột bạn muốn tính tổng
         int numRows = tbleTK.getRowCount();
         for (int row = 0; row < numRows; row++) {
             sumTK += Integer.parseInt(tbleTK.getValueAt(row, i).toString());
         }
-     }
- 
-    public void setDataToTableThongKe(List<hoaDon> hoadon){
-           
-       
-         tableModel = (DefaultTableModel) tbleTK.getModel(); 
+    }
+
+    public void setDataToTableThongKe(List<hoaDon> hoadon) {
+
+        tableModel = (DefaultTableModel) tbleTK.getModel();
         this.listHoaDonStatics = hoadon;
         tableModel.setRowCount(0);
-        
-        int i=0;
-        for(hoaDon hd : listHoaDonStatics){ 
+
+        int i = 0;
+        for (hoaDon hd : listHoaDonStatics) {
             tableModel.addRow(new Object[]{
-               hd.getIdHDV(),
-               hd.getIdHDV(),
-               hd.getNgayLap(),
-               hd.getTongTien()
+                hd.getIdHDV(),
+                hd.getIdHDV(),
+                hd.getNgayLap(),
+                hd.getTongTien()
             });
             i++;
         }
     }
-    
-    private void add(){
-        
+
+    private void add() {
+
         String loaiVe = (String) jComboBox4.getSelectedItem();
         String soLuong = jTextField13.getText();
-        
-        
-                if (jTextField13.getText().equals("") ) {
+
+        if (jTextField13.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Hãy nhập đầy đủ các dữ liệu.");
         } else {
             int thanhTien = 0;
-            
-                thanhTien = (Integer.parseInt(soLuong) * giaDV) ;
-           
-               
-          
 
-            String data[] = {String.valueOf(IDDV),loaiVe, soLuong, String.valueOf(thanhTien)};
+            thanhTien = (Integer.parseInt(soLuong) * giaDV);
+
+            String data[] = {String.valueOf(IDDV), loaiVe, soLuong, String.valueOf(thanhTien)};
             ve = (DefaultTableModel) jTable1.getModel();
-            ve.addRow(data); 
-            
-           jTextField13.setText("");
+            ve.addRow(data);
+
+            jTextField13.setText("");
             jComboBox4.setSelectedIndex(0);
 
         }
@@ -1120,17 +1113,17 @@ public class serviceStaffView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-       Xoa();
+        Xoa();
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-         DefaultTableModel model = (DefaultTableModel) tbleTK.getModel();
-        model.setRowCount(0);  
-           try {
-                Client.socketHandler.write("show-service-bill-by-day"+"="+ngayHienTai+"="+ngayHienTai );
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+        DefaultTableModel model = (DefaultTableModel) tbleTK.getModel();
+        model.setRowCount(0);
+        try {
+            Client.socketHandler.write("show-service-bill-by-day" + "=" + ngayHienTai + "=" + ngayHienTai);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
@@ -1143,35 +1136,35 @@ public class serviceStaffView extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         String GT = (String) jCbGioiTinh.getSelectedItem();
-        if(GT.equals("Nam")){
+        if (GT.equals("Nam")) {
             GT = "1";
-        }else{
+        } else {
             GT = "2";
         }
 
         String CV = (String) jCbChucVu.getSelectedItem();
-        if(CV.equals("ADMIN")){
+        if (CV.equals("ADMIN")) {
             CV = "0";
-        }else if(CV.equals("Nhân Viên Bán Vé")){
+        } else if (CV.equals("Nhân Viên Bán Vé")) {
             CV = "1";
-        }else if(CV.equals("Nhân Viên Dịch Vụ")){
+        } else if (CV.equals("Nhân Viên Dịch Vụ")) {
             CV = "2";
-        }else if(CV.equals("Kĩ Thuật Viên")){
-            CV= "3";
+        } else if (CV.equals("Kĩ Thuật Viên")) {
+            CV = "3";
         }
 
         try {
-            Client.socketHandler.write("update-staff-info"+ "="+
-                MNV.getText()+ "="+
-                TK.getText()+ "="+
-                MK.getText() + "="+
-                CV+ "="+
-                HT.getText()+ "="+
-                ngaysinh.getText()+ "="+
-                sodienthoai.getText()+ "="+
-                GT+ "="+
-                diachi.getText()+ "="+"0"+"="+
-                jcbKhuTTCN.getSelectedItem()  );
+            Client.socketHandler.write("update-staff-info" + "="
+                    + MNV.getText() + "="
+                    + TK.getText() + "="
+                    + MK.getText() + "="
+                    + CV + "="
+                    + HT.getText() + "="
+                    + ngaysinh.getText() + "="
+                    + sodienthoai.getText() + "="
+                    + GT + "="
+                    + diachi.getText() + "=" + "0" + "="
+                    + jcbKhuTTCN.getSelectedItem());
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
@@ -1179,78 +1172,78 @@ public class serviceStaffView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-       try {
-            Client.socketHandler.write("offline"+"="+logoutID);
+        try {
+            Client.socketHandler.write("offline" + "=" + logoutID);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         }
         Client.closeView(Client.View.SERVICESTAFF);
         Client.openView(Client.View.LOGIN);
-    
+
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
-           DefaultTableModel model = (DefaultTableModel) tbleTK.getModel();
+        DefaultTableModel model = (DefaultTableModel) tbleTK.getModel();
         model.setRowCount(0);
 
-            int a = 0;
-            if(jComboBox8.getSelectedItem().equals("Quý 1")){
-                a = 1;
-            }else if(jComboBox8.getSelectedItem().equals("Quý 2")){
-                a = 2;
-            }else if(jComboBox8.getSelectedItem().equals("Quý 3")){
-                a = 3;
-            }else if(jComboBox8.getSelectedItem().equals("Quý 4")){
-                a = 4;
-            }
-           try {
-                Client.socketHandler.write("show-service-bill-by-quarter"+"="+a);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+        int a = 0;
+        if (jComboBox8.getSelectedItem().equals("Quý 1")) {
+            a = 1;
+        } else if (jComboBox8.getSelectedItem().equals("Quý 2")) {
+            a = 2;
+        } else if (jComboBox8.getSelectedItem().equals("Quý 3")) {
+            a = 3;
+        } else if (jComboBox8.getSelectedItem().equals("Quý 4")) {
+            a = 4;
+        }
+        try {
+            Client.socketHandler.write("show-service-bill-by-quarter" + "=" + a);
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         String loaiDV = (String) jComboBox4.getSelectedItem();
         try {
-                Client.socketHandler.write("find-service"+ "="+ loaiDV);
-        
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-      
+            Client.socketHandler.write("find-service" + "=" + loaiDV);
+
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
         DefaultTableModel model = (DefaultTableModel) tbleTK.getModel();
-        model.setRowCount(0);     
-        
+        model.setRowCount(0);
+
         try {
-                Client.socketHandler.write("show-service-bill-by-day"+"="+jTextField17.getText()+"="+jTextField18.getText() );
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            Client.socketHandler.write("show-service-bill-by-day" + "=" + jTextField17.getText() + "=" + jTextField18.getText());
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
-      if (tbleTK.getRowCount() == 0) {
+        if (tbleTK.getRowCount() == 0) {
             JOptionPane.showMessageDialog(rootPane, " Hãy mua sản phẩm!");
-        }else{
-          tongThongKe();
-        TK_print();
-      }
+        } else {
+            tongThongKe();
+            TK_print();
+        }
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-      if (jTable1.getRowCount() == 0) {
+        if (jTable1.getRowCount() == 0) {
             JOptionPane.showMessageDialog(rootPane, " Hãy mua sản phẩm!");
-        }else{
-          
-          addHDDV();
-          tongBill();
-          bill();
-        
-         try{    
+        } else {
+
+            addHDDV();
+            tongBill();
+            bill();
+
+            try {
 
                 bill.print();
 
@@ -1258,13 +1251,13 @@ public class serviceStaffView extends javax.swing.JFrame {
 
                 Logger.getLogger(staffView.class.getName()).log(Level.SEVERE, null, ex);
             }
-         Xoa();
-      }
-        
+            Xoa();
+        }
+
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-       int remove = jTable1.getSelectedRow();
+        int remove = jTable1.getSelectedRow();
         if (jTable1.getRowCount() == 0) {
             JOptionPane.showMessageDialog(rootPane, " Hãy thêm thông tin vào bảng trước khi xóa!");
         } else if (remove == -1) {

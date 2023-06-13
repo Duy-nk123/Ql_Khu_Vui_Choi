@@ -18,13 +18,14 @@ import javax.swing.table.DefaultTableModel;
  * @author My PC
  */
 public class techniciansMenu extends javax.swing.JFrame {
-      private List<User> listTTStatics;
-       private List<khuVuc> listKhuVucStatics;
-       private List<troChoi> listTroChoiStatics;
-         private DefaultTableModel tableModel;
-       
-       int logoutID;
-       String idGame;
+
+    private List<User> listTTStatics;
+    private List<khuVuc> listKhuVucStatics;
+    private List<troChoi> listTroChoiStatics;
+    private DefaultTableModel tableModel;
+
+    int logoutID;
+    String idGame;
 
     /**
      * Creates new form techniciansMenu
@@ -32,108 +33,109 @@ public class techniciansMenu extends javax.swing.JFrame {
     public techniciansMenu() {
         initComponents();
         try {
-                Client.socketHandler.write("show-arena");
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            Client.socketHandler.write("show-arena");
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
         try {
-                Client.socketHandler.write("show-game");
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        
+            Client.socketHandler.write("show-game");
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+
     }
-    public void setDataToTableTroChoi(List<troChoi> game){
-            String TTGame;
-       
-         tableModel = (DefaultTableModel) jTable1.getModel(); 
+
+    public void setDataToTableTroChoi(List<troChoi> game) {
+        String TTGame;
+
+        tableModel = (DefaultTableModel) jTable1.getModel();
         this.listTroChoiStatics = game;
-         tableModel.setRowCount(0);
-           int i=0;
-            for(troChoi games : listTroChoiStatics){ 
-             int ttGame = games.getStatus();
-             if(ttGame == 0){
-                TTGame = "Tốt" ;
-             }else{
-                  TTGame = "Bảo Trì" ;
-             }
+        tableModel.setRowCount(0);
+        int i = 0;
+        for (troChoi games : listTroChoiStatics) {
+            int ttGame = games.getStatus();
+            if (ttGame == 0) {
+                TTGame = "Tốt";
+            } else {
+                TTGame = "Bảo Trì";
+            }
             tableModel.addRow(new Object[]{
                 games.getIdGame(),
                 games.getIdKhu(),
-               games.getGameName(),
+                games.getGameName(),
                 TTGame
             });
             i++;
         }
 
     }
-      public void setJcbKhuVuc(List<khuVuc> arena){
-        
-            
-            jcbKhuTTCN.removeAllItems();
-      
+
+    public void setJcbKhuVuc(List<khuVuc> arena) {
+
+        jcbKhuTTCN.removeAllItems();
+
         this.listKhuVucStatics = arena;
-        int i=0;
-        for(khuVuc arenas : listKhuVucStatics){ 
-            
+        int i = 0;
+        for (khuVuc arenas : listKhuVucStatics) {
+
             jcbKhuTTCN.addItem(String.valueOf(arenas.getIdKhu()));
-           
-            
+
             i++;
         }
-      
+
     }
-    public void setTTCN(List<User> TTCN){ 
+
+    public void setTTCN(List<User> TTCN) {
         this.listTTStatics = TTCN;
-        int i=0;
-        String cv= null;
-        int kv ;
-        for(User TT : listTTStatics){ 
+        int i = 0;
+        String cv = null;
+        int kv;
+        for (User TT : listTTStatics) {
             String gioitinh = Integer.toString(TT.getGioiTinh());
-            if(gioitinh.equals("1")){
+            if (gioitinh.equals("1")) {
                 gioitinh = "Nam";
-            }else{
-                 gioitinh = "Nữ";
+            } else {
+                gioitinh = "Nữ";
             }
-            
-            if(TT.getRole()==0){
+
+            if (TT.getRole() == 0) {
                 cv = " ADMIN";
-            }else if(TT.getRole()==1){
+            } else if (TT.getRole() == 1) {
                 cv = "Nhân Viên Bán Vé";
-            }else if(TT.getRole()==2){
+            } else if (TT.getRole() == 2) {
                 cv = "Nhân Viên Dịch Vụ";
-            }else if(TT.getRole()==3){
+            } else if (TT.getRole() == 3) {
                 cv = "Kĩ Thuật Viên";
             }
-           MNV.setText(Integer.toString(TT.getIdUser()));
-           HT.setText(TT.getHoTen());
-           ngaysinh.setText(TT.getNgaySinh());
-           sodienthoai.setText(TT.getSDT());
-           diachi.setText(TT.getDiaChi());
-             for( i = 0; i< jCbGioiTinh.getItemCount();i++){
-                if(gioitinh.equals(String.valueOf(jCbGioiTinh.getItemAt(i)))){
-                   jCbGioiTinh.setSelectedIndex(i);
+            MNV.setText(Integer.toString(TT.getIdUser()));
+            HT.setText(TT.getHoTen());
+            ngaysinh.setText(TT.getNgaySinh());
+            sodienthoai.setText(TT.getSDT());
+            diachi.setText(TT.getDiaChi());
+            for (i = 0; i < jCbGioiTinh.getItemCount(); i++) {
+                if (gioitinh.equals(String.valueOf(jCbGioiTinh.getItemAt(i)))) {
+                    jCbGioiTinh.setSelectedIndex(i);
                 }
             }
-               for(i = 0; i< jCbChucVu.getItemCount();i++){
-                if(cv.equals(String.valueOf(jCbChucVu.getItemAt(i)))){
+            for (i = 0; i < jCbChucVu.getItemCount(); i++) {
+                if (cv.equals(String.valueOf(jCbChucVu.getItemAt(i)))) {
                     jCbChucVu.setSelectedIndex(i);
                 }
             }
-               kv = TT.getIdKhu();
-               for( i = 0; i< jcbKhuTTCN.getItemCount();i++){
-                if(Integer.toString(kv).equals(String.valueOf(jcbKhuTTCN.getItemAt(i)))){
+            kv = TT.getIdKhu();
+            for (i = 0; i < jcbKhuTTCN.getItemCount(); i++) {
+                if (Integer.toString(kv).equals(String.valueOf(jcbKhuTTCN.getItemAt(i)))) {
                     jcbKhuTTCN.setSelectedIndex(i);
-                } 
-            } 
-               TK.setText(TT.getUsername());
-               MK.setText(TT.getPassword());    
-               logoutID = TT.getIdUser();
+                }
+            }
+            TK.setText(TT.getUsername());
+            MK.setText(TT.getPassword());
+            logoutID = TT.getIdUser();
         }
-            
-            i++;
-        }
-    
+
+        i++;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -675,45 +677,45 @@ public class techniciansMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        
+
         try {
-                Client.socketHandler.write("find-game"+"="+jTextField1.getText());
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            Client.socketHandler.write("find-game" + "=" + jTextField1.getText());
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         String GT = (String) jCbGioiTinh.getSelectedItem();
-        if(GT.equals("Nam")){
+        if (GT.equals("Nam")) {
             GT = "1";
-        }else{
+        } else {
             GT = "2";
         }
 
         String CV = (String) jCbChucVu.getSelectedItem();
-        if(CV.equals("ADMIN")){
+        if (CV.equals("ADMIN")) {
             CV = "0";
-        }else if(CV.equals("Nhân Viên Bán Vé")){
+        } else if (CV.equals("Nhân Viên Bán Vé")) {
             CV = "1";
-        }else if(CV.equals("Nhân Viên Dịch Vụ")){
+        } else if (CV.equals("Nhân Viên Dịch Vụ")) {
             CV = "2";
-        }else if(CV.equals("Kĩ Thuật Viên")){
-            CV= "3";
+        } else if (CV.equals("Kĩ Thuật Viên")) {
+            CV = "3";
         }
 
         try {
-            Client.socketHandler.write("update-staff-info"+ "="+
-                MNV.getText()+ "="+
-                TK.getText()+ "="+
-                MK.getText() + "="+
-                CV+ "="+
-                HT.getText()+ "="+
-                ngaysinh.getText()+ "="+
-                sodienthoai.getText()+ "="+
-                GT+ "="+
-                diachi.getText()+ "="+"0"+"="+
-                jcbKhuTTCN.getSelectedItem()  );
+            Client.socketHandler.write("update-staff-info" + "="
+                    + MNV.getText() + "="
+                    + TK.getText() + "="
+                    + MK.getText() + "="
+                    + CV + "="
+                    + HT.getText() + "="
+                    + ngaysinh.getText() + "="
+                    + sodienthoai.getText() + "="
+                    + GT + "="
+                    + diachi.getText() + "=" + "0" + "="
+                    + jcbKhuTTCN.getSelectedItem());
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
@@ -721,7 +723,7 @@ public class techniciansMenu extends javax.swing.JFrame {
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         try {
-            Client.socketHandler.write("offline"+"="+logoutID);
+            Client.socketHandler.write("offline" + "=" + logoutID);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         }
@@ -730,7 +732,7 @@ public class techniciansMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-       jTextField1.setEditable(false);
+        jTextField1.setEditable(false);
         int updategame = jTable1.getSelectedRow();
         if (jTable1.getRowCount() == 0) {
             JOptionPane.showMessageDialog(rootPane, " Hãy thêm thông tin vào bảng trước khi sửa!");
@@ -740,16 +742,16 @@ public class techniciansMenu extends javax.swing.JFrame {
             idGame = jTable1.getValueAt(updategame, 1).toString();
             String updateGameName = jTable1.getValueAt(updategame, 2).toString();
             jTextField1.setText(updateGameName);
-            
+
             String updateTTGame = jTable1.getValueAt(updategame, 3).toString();
-            if(updateTTGame.equals("0")){
+            if (updateTTGame.equals("0")) {
                 updateTTGame = "Tốt";
-            }else if(updateTTGame.equals("1")){
+            } else if (updateTTGame.equals("1")) {
                 updateTTGame = "Bảo Trì";
             }
-           
-            for(int i = 0; i< jCbTinhTrang.getItemCount();i++){
-                if(updateTTGame.equals(String.valueOf(jCbTinhTrang.getItemAt(i)))){
+
+            for (int i = 0; i < jCbTinhTrang.getItemCount(); i++) {
+                if (updateTTGame.equals(String.valueOf(jCbTinhTrang.getItemAt(i)))) {
                     jCbTinhTrang.setSelectedIndex(i);
                 }
             }
@@ -758,36 +760,36 @@ public class techniciansMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        jTextField1.setEditable(true);       
-        
+        jTextField1.setEditable(true);
+
         String tinhtrangGame = jCbTinhTrang.getSelectedItem().toString();
         int ttGame;
-        if(tinhtrangGame.equals("Tốt")){
+        if (tinhtrangGame.equals("Tốt")) {
             ttGame = 0;
-        }else{
+        } else {
             ttGame = 1;
         }
 
         try {
-            Client.socketHandler.write("update-game-status"+"="+idGame+"="+ttGame);
+            Client.socketHandler.write("update-game-status" + "=" + idGame + "=" + ttGame);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
         try {
-                Client.socketHandler.write("show-game");
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            Client.socketHandler.write("show-game");
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
         jTextField1.setText("");
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         jTextField1.setText("");
         try {
-                Client.socketHandler.write("show-game");
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            Client.socketHandler.write("show-game");
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
