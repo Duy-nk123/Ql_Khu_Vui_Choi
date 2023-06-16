@@ -65,6 +65,12 @@ public class serviceStaffView extends javax.swing.JFrame {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+        MNV.setEditable(false);
+        Date currentDate = new Date();
+        int day = currentDate.getDate();
+        int month = currentDate.getMonth() + 1; // Tháng bắt đầu từ 0, nên cộng thêm 1 để lấy tháng thực tế
+        int year = currentDate.getYear() + 1900; // Năm được tính từ 1900, nên cộng thêm 1900 để lấy năm thực tế
+        String ngayHienTai = (year + "-" + month + "-" + day);
     }
 
     public void sendGetDichVu() {
@@ -304,7 +310,7 @@ public class serviceStaffView extends javax.swing.JFrame {
         }
 
         try {
-            Client.socketHandler.write("add-service-bill" + "=" + ngayHienTai + "=" + logoutID + "=" + sumTK);
+            Client.socketHandler.write("add-service-bill" + "=" + ngayHienTai + "=" + MNV.getText() + "=" + sumTK);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
@@ -454,7 +460,6 @@ public class serviceStaffView extends javax.swing.JFrame {
         MNV = new javax.swing.JTextField();
         jPanel15 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
         jLabel22 = new javax.swing.JLabel();
         jLabel33 = new javax.swing.JLabel();
@@ -648,7 +653,7 @@ public class serviceStaffView extends javax.swing.JFrame {
             .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jTabbedPane2.addTab("Bán Vé", jPanel4);
+        jTabbedPane2.addTab("Bán Dịch Vụ", jPanel4);
 
         jPanel5.setBackground(new java.awt.Color(255, 153, 255));
 
@@ -924,8 +929,6 @@ public class serviceStaffView extends javax.swing.JFrame {
             }
         });
 
-        jButton11.setText("Trở Lại");
-
         jButton12.setText("Đăng Xuất");
         jButton12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -941,7 +944,6 @@ public class serviceStaffView extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
@@ -950,11 +952,9 @@ public class serviceStaffView extends javax.swing.JFrame {
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(152, Short.MAX_VALUE))
+                .addContainerGap(219, Short.MAX_VALUE))
         );
 
         jLabel22.setBackground(new java.awt.Color(102, 255, 255));
@@ -1204,6 +1204,9 @@ public class serviceStaffView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+         if(jTextField13.getText().equals("")){
+             JOptionPane.showMessageDialog(Client.ServiceStaff, "Vui Lòng Thêm Số Lượng");
+        }else{
         String loaiDV = (String) jComboBox4.getSelectedItem();
         try {
             Client.socketHandler.write("find-service" + "=" + loaiDV);
@@ -1211,23 +1214,28 @@ public class serviceStaffView extends javax.swing.JFrame {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+         }
 
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+        if(jTextField13.getText().equals("")){
+             JOptionPane.showMessageDialog(Client.ServiceStaff, "Vui Lòng Nhập Số Lượng!");
+        }else{
         DefaultTableModel model = (DefaultTableModel) tbleTK.getModel();
         model.setRowCount(0);
-
+        
         try {
             Client.socketHandler.write("show-service-bill-by-day" + "=" + jTextField17.getText() + "=" + jTextField18.getText());
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+        }
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
         if (tbleTK.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(rootPane, " Hãy mua sản phẩm!");
+            JOptionPane.showMessageDialog(rootPane, " In Danh Sách Không Thành Công! \n Hãy Thống Kê Trước Khi In!");
         } else {
             tongThongKe();
             TK_print();
@@ -1310,7 +1318,6 @@ public class serviceStaffView extends javax.swing.JFrame {
     private javax.swing.JTextArea bill;
     private javax.swing.JTextArea bill1;
     private javax.swing.JTextField diachi;
-    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;

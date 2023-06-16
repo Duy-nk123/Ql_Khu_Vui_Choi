@@ -85,7 +85,7 @@ public class staffView extends javax.swing.JFrame {
         txtNgayTao.setText(year + "-" + month + "-" + day);
 
         txtGiamGia.setText("0");
-
+        MNV.setEditable(false);
     }
 
     public void bill_print() {
@@ -470,7 +470,6 @@ public class staffView extends javax.swing.JFrame {
         MNV = new javax.swing.JTextField();
         jPanel15 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
         jLabel22 = new javax.swing.JLabel();
         jLabel33 = new javax.swing.JLabel();
@@ -719,6 +718,11 @@ public class staffView extends javax.swing.JFrame {
         jComboBox8.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Quý 1", "Quý 2", "Quý 3", "Quý 4" }));
         jComboBox8.setMinimumSize(new java.awt.Dimension(108, 40));
         jComboBox8.setPreferredSize(new java.awt.Dimension(108, 40));
+        jComboBox8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox8ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -938,8 +942,6 @@ public class staffView extends javax.swing.JFrame {
             }
         });
 
-        jButton11.setText("Trở Lại");
-
         jButton12.setText("Đăng Xuất");
         jButton12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -955,7 +957,6 @@ public class staffView extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
@@ -964,11 +965,9 @@ public class staffView extends javax.swing.JFrame {
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(152, Short.MAX_VALUE))
+                .addContainerGap(219, Short.MAX_VALUE))
         );
 
         jLabel22.setBackground(new java.awt.Color(102, 255, 255));
@@ -1140,7 +1139,9 @@ public class staffView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void btnThemVeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVeActionPerformed
-
+        if(txtSoLuong.getText().equals("")){
+             JOptionPane.showMessageDialog(Client.Staff, "Vui Lòng Thêm Số Lượng");
+        }else{
         String loaiVe = (String) cbLoaiVe.getSelectedItem();
 
         try {
@@ -1149,6 +1150,8 @@ public class staffView extends javax.swing.JFrame {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+    
+    }
 
 
     }//GEN-LAST:event_btnThemVeActionPerformed
@@ -1236,6 +1239,7 @@ public class staffView extends javax.swing.JFrame {
         } else if (jComboBox8.getSelectedItem().equals("Quý 4")) {
             a = 4;
         }
+        
         try {
             Client.socketHandler.write("show-ticket-bill-by-quarter" + "=" + a);
         } catch (IOException ex) {
@@ -1287,6 +1291,9 @@ public class staffView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if(jTextField17.getText().equals("")|| jTextField18.getText().equals("")){
+             JOptionPane.showMessageDialog(Client.Staff, "Vui Lòng Nhập Ngày!");
+        }else{
         DefaultTableModel model = (DefaultTableModel) tbleTK.getModel();
         model.setRowCount(0);
 
@@ -1295,7 +1302,12 @@ public class staffView extends javax.swing.JFrame {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jComboBox8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1343,7 +1355,6 @@ public class staffView extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbLoaiVe;
     private javax.swing.JTextField diachi;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;

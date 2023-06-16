@@ -172,6 +172,7 @@ public class adminForm extends javax.swing.JFrame {
         txtIDVe.setEditable(false);
         txtIDDV.setEditable(false);
         MNV.setEditable(false);
+        
 
     }
 
@@ -209,8 +210,10 @@ public class adminForm extends javax.swing.JFrame {
                 Users.getSDT()
             });
             i++;
+            
         }
-
+        
+         
     }
 
     public void setTTCN(List<User> TTCN) {
@@ -333,7 +336,7 @@ public class adminForm extends javax.swing.JFrame {
 
             }
             bill1.setText(bill1.getText() + "---------------------------------------------------------------------------------------------\n");
-            bill1.setText(bill1.getText() + "\t Tổng Tiền: " + sumTK + ".000 \n");
+            bill1.setText(bill1.getText() + "\t Tổng Tiền: " + sumTK + ".000 VND\n");
             bill1.setText(bill1.getText() + "===================================================\n");
             bill1.setText(bill1.getText() + "\tThanks For Your Business...!" + "\n");
             bill1.setText(bill1.getText() + "---------------------------------------------------------------------------------------------\n");
@@ -526,7 +529,6 @@ public class adminForm extends javax.swing.JFrame {
         MNV = new javax.swing.JTextField();
         jPanel15 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
         jLabel22 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
@@ -1088,8 +1090,6 @@ public class adminForm extends javax.swing.JFrame {
             }
         });
 
-        jButton11.setText("Trở Lại");
-
         jButton12.setText("Đăng Xuất");
         jButton12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1105,7 +1105,6 @@ public class adminForm extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
@@ -1114,11 +1113,9 @@ public class adminForm extends javax.swing.JFrame {
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(152, Short.MAX_VALUE))
+                .addContainerGap(225, Short.MAX_VALUE))
         );
 
         jLabel22.setBackground(new java.awt.Color(102, 255, 255));
@@ -1620,7 +1617,7 @@ public class adminForm extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID ", "Loại Vé", "Giờ Mở Cửa", "Giờ Đóng Cửa"
+                "ID ", "Tên Khu", "Giờ Mở Cửa", "Giờ Đóng Cửa"
             }
         ));
         jScrollPane6.setViewportView(tbleKhuVuc);
@@ -2097,19 +2094,27 @@ public class adminForm extends javax.swing.JFrame {
 
     private void btnThemVe7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVe7ActionPerformed
         String findNameGame = txtNameGame.getText();
+         if(findNameGame.equals("")){
+             JOptionPane.showMessageDialog(Client.AdminForm, "Tìm Kiếm Không Thành Công! \n Hãy Nhập Tên Trò Chơi Trước Khi Tìm Kiếm!");
+        }else{
         try {
             Client.socketHandler.write("find-game" + "=" + findNameGame);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
         BTNFalse();
+         }
     }//GEN-LAST:event_btnThemVe7ActionPerformed
 
     private void jButton27ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton27ActionPerformed
         String idGame = txtIDGame.getText();
         String nameGame = txtNameGame.getText();
+        
         String kvGame = jCbKhuGame.getSelectedItem().toString();
         String tinhtrangGame = jCbTinhTrang.getSelectedItem().toString();
+        if(nameGame.equals("")||idGame.equals("")){
+             JOptionPane.showMessageDialog(Client.AdminForm, "Vui Lòng Sửa Trò Chơi Trước Khi lưu");
+        }else{
         int ttGame;
         if (tinhtrangGame.equals("Tốt")) {
             ttGame = 0;
@@ -2124,6 +2129,7 @@ public class adminForm extends javax.swing.JFrame {
         }
         xoaTrangGame();
         sendgetgame();
+        }
     }//GEN-LAST:event_jButton27ActionPerformed
 
     private void btnThemVe6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVe6ActionPerformed
@@ -2266,16 +2272,25 @@ public class adminForm extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         String findNV = txtHTNV.getText();
+         if(findNV.equals("")){
+             JOptionPane.showMessageDialog(Client.AdminForm, "Tìm Kiếm Không Thành Công! \\n Hãy Nhập Tên Nhân Viên Trước Khi Tìm Kiếm!");
+        }else{
+        if(findNV.equals("")){
+            JOptionPane.showMessageDialog(Client.AdminForm, "Vui Lòng Nhập Tên Nhân Viên");
+            
+        }else{
         try {
             Client.socketHandler.write("find-user" + "=" + findNV);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+        }
+         }
 
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
-        if (txtHTNV.equals("")) {
+        if (txtHTNV.getText().equals("")||txtMKNV.getText().equals("")||txtTKNV.getText().equals("")) {
             JOptionPane.showMessageDialog(rootPane, " Hãy thêm đầy đủ thông tin!");
         } else {
             String updateName = txtHTNV.getText();
@@ -2346,11 +2361,15 @@ public class adminForm extends javax.swing.JFrame {
 
     private void btnThemVe5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVe5ActionPerformed
         String findKV = txtTenKhu.getText();
+         if(findKV.equals("")){
+             JOptionPane.showMessageDialog(Client.AdminForm, "Tìm Kiếm Không Thành Công! \n Hãy Nhập Tên Khu Vực Trước Khi Tìm Kiếm!");
+        }else{
         try {
             Client.socketHandler.write("find-area" + "=" + findKV);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+         }
     }//GEN-LAST:event_btnThemVe5ActionPerformed
 
     private void btnThemVe4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVe4ActionPerformed
@@ -2420,6 +2439,9 @@ public class adminForm extends javax.swing.JFrame {
 
     private void btnThemVe1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVe1ActionPerformed
         String findVe = txtLoaiVe.getText();
+        if(findVe.equals("")){
+             JOptionPane.showMessageDialog(Client.AdminForm, "Tìm Kiếm Không Thành Công! \n Hãy Nhập Tên Vé Trước Khi Tìm Kiếm!");
+        }else{
 
         try {
             Client.socketHandler.write("find-ticket" + "=" + findVe);
@@ -2427,6 +2449,7 @@ public class adminForm extends javax.swing.JFrame {
             throw new RuntimeException(ex);
         }
         xoaTrangVe();
+        }
     }//GEN-LAST:event_btnThemVe1ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -2500,13 +2523,16 @@ public class adminForm extends javax.swing.JFrame {
 
     private void btnThemVe8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVe8ActionPerformed
         String findDV = txtDV.getText();
-
+         if(findDV.equals("")){
+             JOptionPane.showMessageDialog(Client.AdminForm, "Tìm Kiếm Không Thành Công! \\n Hãy Nhập Tên Dịch Vụ Trước Khi Tìm Kiếm!");
+        }else{
         try {
             Client.socketHandler.write("find-service" + "=" + findDV);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
         xoaTrangDichVu();
+         }
     }//GEN-LAST:event_btnThemVe8ActionPerformed
 
     private void btnThemVe9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVe9ActionPerformed
@@ -2569,7 +2595,9 @@ public class adminForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton32ActionPerformed
 
     private void jButton33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton33ActionPerformed
-
+        if(txtIDDV.getText().equals("")){
+            JOptionPane.showMessageDialog(Client.AdminForm, "Thao Tác Không Thành Công Vui Lòng Thực Hiện Lại!");
+        }else{
         getDichVu();
         if (khuDV.equals("") || dv.equals("") || giaDV.equals("")) {
             JOptionPane.showMessageDialog(rootPane, " Hãy thêm đầy đủ thông tin!");
@@ -2584,11 +2612,13 @@ public class adminForm extends javax.swing.JFrame {
             xoaTrangDichVu();
             btnThemVe9.setEnabled(true);
         }
+        }
     }//GEN-LAST:event_jButton33ActionPerformed
 
     private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
         xoaTrangDichVu();
         sendGetDichVu();
+        btnThemVe9.setEnabled(true);
     }//GEN-LAST:event_jButton34ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
@@ -2631,7 +2661,7 @@ public class adminForm extends javax.swing.JFrame {
             throw new RuntimeException(ex);
         }
 
-
+        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
@@ -2668,6 +2698,10 @@ public class adminForm extends javax.swing.JFrame {
         } else if (jComboBox8.getSelectedItem().equals("Quý 4")) {
             b = 4;
         }
+        
+                 
+            
+       
         if (a.equals("Hóa Đơn Vé")) {
             try {
                 Client.socketHandler.write("show-ticket-bill-by-quarter" + "=" + b);
@@ -2703,6 +2737,9 @@ public class adminForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if(jTextField17.getText().equals("")|| jTextField18.getText().equals("")){
+             JOptionPane.showMessageDialog(Client.AdminForm, "Vui Lòng Nhập Ngày!");
+        }else{
         DefaultTableModel model = (DefaultTableModel) ThongKe.getModel();
         model.setRowCount(0);
         if (!jTextField17.getText().isEmpty() && !jTextField17.getText().isEmpty()) { // kiểm tra xem giá trị có tồn tại hay không
@@ -2712,6 +2749,7 @@ public class adminForm extends javax.swing.JFrame {
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
+        }
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -2768,7 +2806,6 @@ public class adminForm extends javax.swing.JFrame {
     private javax.swing.JButton btnThemVe9;
     private javax.swing.JTextField diachi;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;

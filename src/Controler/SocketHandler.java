@@ -153,6 +153,7 @@ public class SocketHandler implements Runnable {
 
     @Override
     public void run() {
+        
         try {
             // Gửi yêu cầu kết nối tới Server đang lắng nghe
             socketOfClient = new Socket("localhost", 7777);//192.168.43.208
@@ -248,9 +249,10 @@ public class SocketHandler implements Runnable {
                     }
                 }
                 // find user
-                if (messageSplit[0].equals("return-find-user")) {
+                if (messageSplit[0].equals("return-find-user1")) {
                     if (Client.AdminForm != null) {
                         Client.AdminForm.setTableUser(getUser(messageSplit));
+                       
 
                     }
                 }
@@ -418,13 +420,18 @@ public class SocketHandler implements Runnable {
                 if (messageSplit[0].equals("return-find-user")) {
                     if (Client.AdminForm != null) {
                         Client.AdminForm.setTTCN(getTTCN(messageSplit));
-                    } else if (Client.ServiceStaff != null) {
+                        Client.AdminForm.sendGetUser();
+                    } 
+                    else if (Client.ServiceStaff != null) {
                         Client.ServiceStaff.setTTCN(getTTCN(messageSplit));
-                    } else if (Client.Staff != null) {
+                    } 
+                    else if (Client.Staff != null) {
                         Client.Staff.setTTCN(getTTCN(messageSplit));
-                    } else if (Client.Technician != null) {
+                    } 
+                    else if (Client.Technician != null) {
                         Client.Technician.setTTCN(getTTCN(messageSplit));
                     }
+                    
                 }
 
                 // update tt ca nhan

@@ -42,6 +42,7 @@ public class techniciansMenu extends javax.swing.JFrame {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
+        MNV.setEditable(false);
 
     }
 
@@ -185,7 +186,6 @@ public class techniciansMenu extends javax.swing.JFrame {
         MNV = new javax.swing.JTextField();
         jPanel15 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
         jLabel22 = new javax.swing.JLabel();
         jLabel33 = new javax.swing.JLabel();
@@ -464,8 +464,6 @@ public class techniciansMenu extends javax.swing.JFrame {
             }
         });
 
-        jButton11.setText("Trở Lại");
-
         jButton12.setText("Đăng Xuất");
         jButton12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -481,7 +479,6 @@ public class techniciansMenu extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
@@ -490,11 +487,9 @@ public class techniciansMenu extends javax.swing.JFrame {
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(152, Short.MAX_VALUE))
+                .addContainerGap(219, Short.MAX_VALUE))
         );
 
         jLabel22.setBackground(new java.awt.Color(102, 255, 255));
@@ -677,11 +672,14 @@ public class techniciansMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-
+        if(jTextField1.getText().equals("")){
+             JOptionPane.showMessageDialog(Client.Technician, "Vui Lòng Nhập Tên Trò Chơi Trước Khi Tìm Kiếm!");
+        }else{
         try {
             Client.socketHandler.write("find-game" + "=" + jTextField1.getText());
         } catch (IOException ex) {
             throw new RuntimeException(ex);
+        }
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -760,6 +758,10 @@ public class techniciansMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        
+        if(jTextField1.getText().equals("")){
+             JOptionPane.showMessageDialog(Client.Technician, "Vui Lòng Sửa Trò Chơi Trước Khi Lưu!");
+        }else{
         jTextField1.setEditable(true);
 
         String tinhtrangGame = jCbTinhTrang.getSelectedItem().toString();
@@ -781,6 +783,7 @@ public class techniciansMenu extends javax.swing.JFrame {
             throw new RuntimeException(ex);
         }
         jTextField1.setText("");
+        }
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -833,7 +836,6 @@ public class techniciansMenu extends javax.swing.JFrame {
     private javax.swing.JTextField MNV;
     private javax.swing.JTextField TK;
     private javax.swing.JTextField diachi;
-    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
